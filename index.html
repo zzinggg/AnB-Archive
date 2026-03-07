@@ -8,19 +8,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #08080f;
-  --s1: #111118;
-  --s2: #18181f;
-  --s3: #202028;
-  --border: rgba(255,255,255,0.06);
-  --border2: rgba(255,255,255,0.1);
-  --accent: #6c63ff;
-  --accent-glow: rgba(108,99,255,0.25);
-  --pink: #ff6b9d;
-  --teal: #4ecdc4;
-  --text: #e4e4f0;
-  --muted: #6b6b88;
-  --muted2: #9090aa;
+  --bg:#08080f;--s1:#111118;--s2:#18181f;--s3:#202028;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);
+  --accent:#6c63ff;--accent-glow:rgba(108,99,255,0.25);
+  --pink:#ff6b9d;--teal:#4ecdc4;--discord:#7289da;
+  --text:#e4e4f0;--muted:#6b6b88;--muted2:#9090aa;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -65,21 +57,23 @@ header{position:sticky;top:0;z-index:100;height:60px;background:rgba(8,8,15,0.85
 .card-shimmer{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent) 50%,transparent);opacity:0;transition:opacity .3s}
 .card:hover .card-shimmer{opacity:1}
 @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.card-top{display:flex;justify-content:flex-start;align-items:flex-start;margin-bottom:16px}
 .card-flag{font-size:32px;line-height:1}
-.card-stars{font-size:13px;color:#fbbf24;letter-spacing:1px}
 .card-country{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);font-family:'Syne',sans-serif;margin-bottom:5px}
 .card-place{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:3px}
 .card-city{font-size:12px;color:var(--muted);margin-bottom:14px}
-.card-cat{display:inline-flex;align-items:center;gap:5px;background:rgba(78,205,196,.1);border:1px solid rgba(78,205,196,.2);color:var(--teal);font-size:11px;padding:3px 10px;border-radius:100px;margin-bottom:12px}
+.card-cat{display:inline-flex;align-items:center;background:rgba(78,205,196,.1);border:1px solid rgba(78,205,196,.2);color:var(--teal);font-size:11px;padding:3px 10px;border-radius:100px;margin-bottom:12px}
 .card-tip{font-size:12.5px;color:var(--muted2);line-height:1.7;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .card-must{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);margin-bottom:16px}
 .card-must b{color:var(--pink)}
 .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--border)}
 .card-source{font-size:11px;color:var(--muted)}
 .card-source b{color:var(--muted2)}
+.card-links{display:flex;gap:6px;flex-wrap:wrap}
 .map-link{display:inline-flex;align-items:center;gap:5px;background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.25);color:var(--accent);font-size:11px;padding:5px 12px;border-radius:8px;text-decoration:none;transition:all .18s;font-family:'Noto Sans KR',sans-serif}
 .map-link:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.discord-link{display:inline-flex;align-items:center;gap:5px;background:rgba(114,137,218,.15);border:1px solid rgba(114,137,218,.25);color:var(--discord);font-size:11px;padding:5px 12px;border-radius:8px;text-decoration:none;transition:all .18s;font-family:'Noto Sans KR',sans-serif}
+.discord-link:hover{background:#5865f2;color:#fff;border-color:#5865f2}
 
 /* TABLE */
 .table-wrap{display:none;border:1px solid var(--border);border-radius:16px;overflow:hidden;overflow-x:auto}
@@ -95,10 +89,13 @@ tbody td{padding:14px 18px;vertical-align:middle}
 .td-city{font-size:11px;color:var(--muted);margin-top:2px}
 .td-cat{display:inline-block;background:rgba(78,205,196,.1);border:1px solid rgba(78,205,196,.2);color:var(--teal);font-size:10px;padding:2px 8px;border-radius:100px}
 .td-tip{max-width:260px;color:var(--muted2);line-height:1.5;font-size:12px}
-.td-stars{color:#fbbf24;white-space:nowrap}
 .td-src{font-size:11px;color:var(--muted)}
-.td-map a{color:var(--accent);text-decoration:none;font-size:12px}
-.td-map a:hover{text-decoration:underline}
+.td-links{display:flex;gap:6px;white-space:nowrap}
+.td-links a{font-size:11px;text-decoration:none;padding:3px 10px;border-radius:6px}
+.td-links .tl-map{background:rgba(108,99,255,.15);color:var(--accent);border:1px solid rgba(108,99,255,.25)}
+.td-links .tl-map:hover{background:var(--accent);color:#fff}
+.td-links .tl-dc{background:rgba(114,137,218,.15);color:var(--discord);border:1px solid rgba(114,137,218,.25)}
+.td-links .tl-dc:hover{background:#5865f2;color:#fff}
 
 /* EMPTY & LOADING */
 .empty{text-align:center;padding:80px 20px;color:var(--muted);display:none}
@@ -134,7 +131,7 @@ tbody td{padding:14px 18px;vertical-align:middle}
 <body>
 
 <header>
-  <div class="logo"><div class="logo-dot"></div>TRAVEL ARCHIVE</div>
+  <div class="logo"><div class="logo-dot"></div>AnB Travel Archive</div>
   <div class="header-right">
     <span class="total-count" id="total-count"></span>
     <div class="toggle-wrap">
@@ -154,8 +151,8 @@ tbody td{padding:14px 18px;vertical-align:middle}
     <h3>구글 시트 연동 방법 (지금은 샘플 데이터 표시 중)</h3>
     <p>
       1. 구글 시트 → <b>파일 → 웹에 게시 → 쉼표로 구분된 값(.csv)</b> 선택 후 게시 → URL 복사<br>
-      2. 이 HTML 파일을 열어서 상단 <code>SHEET_CSV_URL = ""</code> 안에 URL 붙여넣기<br>
-      3. 시트 컬럼 순서: <code>Country</code> <code>City</code> <code>Place</code> <code>Category</code> <code>Rating(1-5)</code> <code>Tip</code> <code>MapURL</code> <code>MustTry</code> <code>Source</code> <code>Flag(🇯🇵)</code>
+      2. 이 HTML 파일 상단 <code>SHEET_CSV_URL = ""</code> 안에 URL 붙여넣기<br>
+      3. 시트 컬럼 순서: <code>Country</code> <code>City</code> <code>Place</code> <code>Category</code> <code>Tip</code> <code>MapURL</code> <code>DiscordURL</code> <code>MustTry</code> <code>Source</code> <code>Flag(🇯🇵)</code>
     </p>
   </div>
   <button class="setup-close" onclick="this.closest('.setup-banner').style.display='none'">✕</button>
@@ -163,9 +160,9 @@ tbody td{padding:14px 18px;vertical-align:middle}
 
 <section class="hero">
   <div class="hero-bg"></div>
-  <div class="hero-label">Community Travel Archive</div>
-  <h1>우리가 직접 다녀온<br><span>여행지 모음</span></h1>
-  <p class="hero-desc">디스코드 커뮤니티 멤버들이 직접 수집한 여행 정보 아카이브 ✈️<br>나라별로 필터해서 바로 찾아보세요.</p>
+  <div class="hero-label">AnB Travel Archive</div>
+  <h1>Travel Spots,<br><span>Curated by Us ✈️</span></h1>
+  <p class="hero-desc">우리가 직접 가보고 기록한 여행지들 ✈️<br>나라별 필터로 다음 여행지를 발견해보세요!</p>
 </section>
 
 <div class="controls">
@@ -178,7 +175,12 @@ tbody td{padding:14px 18px;vertical-align:middle}
   <div class="card-grid" id="card-grid"></div>
   <div class="table-wrap" id="table-wrap">
     <table>
-      <thead><tr><th></th><th>나라</th><th>장소</th><th>카테고리</th><th>팁</th><th>평점</th><th>구글맵</th><th>정보제공자</th></tr></thead>
+      <thead>
+        <tr>
+          <th></th><th>나라</th><th>장소</th><th>카테고리</th>
+          <th>팁</th><th>링크</th><th>정보제공자</th>
+        </tr>
+      </thead>
       <tbody id="tbody"></tbody>
     </table>
   </div>
@@ -191,36 +193,34 @@ tbody td{padding:14px 18px;vertical-align:middle}
 // ══════════════════════════════════════════════════════
 //  ★ 구글 시트 CSV URL 여기에 붙여넣기
 // ══════════════════════════════════════════════════════
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?output=csv";
+const SHEET_CSV_URL = "";
 
 // 샘플 데이터
 const SAMPLE = [
-  {country:"Japan",flag:"🇯🇵",city:"Kyoto",place:"Fushimi Inari Taisha",category:"신사·사원",rating:5,tip:"새벽 5시 방문 필수! 관광객 없이 조용히 즐길 수 있음. 산 정상까지 약 2시간 소요.",mapUrl:"https://maps.app.goo.gl/fushimiinari",mustTry:"오무스비 삼각김밥",source:"YUKI"},
-  {country:"Japan",flag:"🇯🇵",city:"Osaka",place:"Dotonbori",category:"음식·야경",rating:4,tip:"글리코 간판 앞 사진은 저녁 7시 이후가 예쁨. 타코야키는 아이즈야 추천.",mapUrl:"https://maps.app.goo.gl/dotonbori",mustTry:"타코야키",source:"민재"},
-  {country:"Japan",flag:"🇯🇵",city:"Tokyo",place:"TeamLab Planets",category:"전시·문화",rating:5,tip:"사전 예매 필수! 흰 옷 입으면 더 예쁘게 나옴. 평일 오전 방문 추천.",mapUrl:"https://maps.app.goo.gl/teamlab",mustTry:"이치란 라멘",source:"소연"},
-  {country:"France",flag:"🇫🇷",city:"Paris",place:"Sainte-Chapelle",category:"역사·성당",rating:5,tip:"노트르담보다 훨씬 덜 붐비는 스테인드글라스 명소. 오전 햇살이 들어올 때 최고.",mapUrl:"https://maps.app.goo.gl/saintechapelle",mustTry:"에클레어",source:"여행블로그"},
-  {country:"France",flag:"🇫🇷",city:"Lyon",place:"Vieux-Lyon",category:"산책·뷰포인트",rating:4,tip:"파리보다 훨씬 덜 붐비고 진짜 프랑스 일상 느낌. 트라불 골목 꼭 탐험할 것.",mapUrl:"https://maps.app.goo.gl/vieuxlyon",mustTry:"부숑 레스토랑 퀴넬",source:"다은"},
-  {country:"Italy",flag:"🇮🇹",city:"Amalfi Coast",place:"Positano",category:"자연·해변",rating:5,tip:"7-8월은 인파 폭발. 페리로 이동하면 절경 감상 가능. 5-6월 강추.",mapUrl:"https://maps.app.goo.gl/positano",mustTry:"레몬 젤라토",source:"현우"},
-  {country:"Italy",flag:"🇮🇹",city:"Florence",place:"Piazzale Michelangelo",category:"뷰포인트",rating:5,tip:"해질녘 30분 전에 올라가면 황금빛 피렌체 뷰. 무료. 버스 12번 이용 가능.",mapUrl:"https://maps.app.goo.gl/piazzale",mustTry:"트러플 파스타",source:"수진"},
-  {country:"Thailand",flag:"🇹🇭",city:"Chiang Mai",place:"Doi Inthanon",category:"자연·트레킹",rating:4,tip:"새벽에는 쌀쌀하니 재킷 필수. 11-2월 방문 추천. 고산족 마을 투어와 묶으면 효율적.",mapUrl:"https://maps.app.goo.gl/doiinthanon",mustTry:"카오소이",source:"태민"},
-  {country:"Thailand",flag:"🇹🇭",city:"Bangkok",place:"Chatuchak Market",category:"쇼핑·마켓",rating:4,tip:"토·일요일만 열림. 엄청 더우니 아침 일찍 가기. 흥정 기본.",mapUrl:"https://maps.app.goo.gl/chatuchak",mustTry:"망고 찹쌀밥",source:"지원"},
-  {country:"Spain",flag:"🇪🇸",city:"Barcelona",place:"Sagrada Família",category:"건축·역사",rating:5,tip:"타워 올라가는 입장권 따로 있음. 아침 일찍 가면 스테인드글라스 빛이 내부에 쏟아짐.",mapUrl:"https://maps.app.goo.gl/sagrada",mustTry:"하몽 + 상그리아",source:"예진"},
-  {country:"Spain",flag:"🇪🇸",city:"Granada",place:"Alhambra Palace",category:"역사·건축",rating:5,tip:"하루 입장 인원 제한. 최소 2-3달 전 예매 필수. 나스리드 궁전 입장 시간 꼭 확인.",mapUrl:"https://maps.app.goo.gl/alhambra",mustTry:"타파스 + 셰리주",source:"준혁"},
-  {country:"Taiwan",flag:"🇹🇼",city:"Taipei",place:"Jiufen Old Street",category:"산책·야경",rating:4,tip:"비 올 때 더 분위기 있음. 저녁 6시 이후 홍등 켜지면 환상적. 하이힐 절대 금지.",mapUrl:"https://maps.app.goo.gl/jiufen",mustTry:"타로볼",source:"혜림"},
-  {country:"Vietnam",flag:"🇻🇳",city:"Hoi An",place:"호이안 올드타운",category:"산책·역사",rating:5,tip:"자전거 빌려서 투본강 따라 달리면 최고. 랜턴 축제는 음력 14일마다.",mapUrl:"https://maps.app.goo.gl/hoian",mustTry:"까오러우",source:"서윤"},
-  {country:"Portugal",flag:"🇵🇹",city:"Lisbon",place:"LX Factory",category:"쇼핑·문화",rating:4,tip:"주말 마켓이 제일 활발함. 루프탑 바에서 테주 강 뷰 추천.",mapUrl:"https://maps.app.goo.gl/lxfactory",mustTry:"파스텔 드 나타",source:"민경"},
-  {country:"Morocco",flag:"🇲🇦",city:"Marrakech",place:"Djemaa el-Fna",category:"로컬·문화",rating:4,tip:"저녁 노점 가격 흥정 필수. 뱀 구경 시 돈 요구 조심. 밤 분위기 최고.",mapUrl:"https://maps.app.goo.gl/marrakech",mustTry:"타진 + 민트티",source:"도현"},
+  {country:"Japan",flag:"🇯🇵",city:"Kyoto",place:"Fushimi Inari Taisha",category:"신사·사원",tip:"새벽 5시 방문 필수! 관광객 없이 조용히 즐길 수 있음. 산 정상까지 약 2시간 소요.",mapUrl:"https://maps.app.goo.gl/fushimiinari",discordUrl:"",mustTry:"오무스비 삼각김밥",source:"YUKI"},
+  {country:"Japan",flag:"🇯🇵",city:"Osaka",place:"Dotonbori",category:"음식·야경",tip:"글리코 간판 앞 사진은 저녁 7시 이후가 예쁨. 타코야키는 아이즈야 추천.",mapUrl:"https://maps.app.goo.gl/dotonbori",discordUrl:"",mustTry:"타코야키",source:"민재"},
+  {country:"Japan",flag:"🇯🇵",city:"Tokyo",place:"TeamLab Planets",category:"전시·문화",tip:"사전 예매 필수! 흰 옷 입으면 더 예쁘게 나옴. 평일 오전 방문 추천.",mapUrl:"https://maps.app.goo.gl/teamlab",discordUrl:"",mustTry:"이치란 라멘",source:"소연"},
+  {country:"France",flag:"🇫🇷",city:"Paris",place:"Sainte-Chapelle",category:"역사·성당",tip:"노트르담보다 훨씬 덜 붐비는 스테인드글라스 명소. 오전 햇살이 들어올 때 최고.",mapUrl:"https://maps.app.goo.gl/saintechapelle",discordUrl:"",mustTry:"에클레어",source:"여행블로그"},
+  {country:"France",flag:"🇫🇷",city:"Lyon",place:"Vieux-Lyon",category:"산책·뷰포인트",tip:"파리보다 훨씬 덜 붐비고 진짜 프랑스 일상 느낌. 트라불 골목 꼭 탐험할 것.",mapUrl:"https://maps.app.goo.gl/vieuxlyon",discordUrl:"",mustTry:"부숑 레스토랑 퀴넬",source:"다은"},
+  {country:"Italy",flag:"🇮🇹",city:"Amalfi Coast",place:"Positano",category:"자연·해변",tip:"7-8월은 인파 폭발. 페리로 이동하면 절경 감상 가능. 5-6월 강추.",mapUrl:"https://maps.app.goo.gl/positano",discordUrl:"",mustTry:"레몬 젤라토",source:"현우"},
+  {country:"Italy",flag:"🇮🇹",city:"Florence",place:"Piazzale Michelangelo",category:"뷰포인트",tip:"해질녘 30분 전에 올라가면 황금빛 피렌체 뷰. 무료. 버스 12번 이용 가능.",mapUrl:"https://maps.app.goo.gl/piazzale",discordUrl:"",mustTry:"트러플 파스타",source:"수진"},
+  {country:"Thailand",flag:"🇹🇭",city:"Chiang Mai",place:"Doi Inthanon",category:"자연·트레킹",tip:"새벽에는 쌀쌀하니 재킷 필수. 11-2월 방문 추천. 고산족 마을 투어와 묶으면 효율적.",mapUrl:"https://maps.app.goo.gl/doiinthanon",discordUrl:"",mustTry:"카오소이",source:"태민"},
+  {country:"Thailand",flag:"🇹🇭",city:"Bangkok",place:"Chatuchak Market",category:"쇼핑·마켓",tip:"토·일요일만 열림. 엄청 더우니 아침 일찍 가기. 흥정 기본.",mapUrl:"https://maps.app.goo.gl/chatuchak",discordUrl:"",mustTry:"망고 찹쌀밥",source:"지원"},
+  {country:"Spain",flag:"🇪🇸",city:"Barcelona",place:"Sagrada Família",category:"건축·역사",tip:"타워 올라가는 입장권 따로 있음. 아침 일찍 가면 스테인드글라스 빛이 내부에 쏟아짐.",mapUrl:"https://maps.app.goo.gl/sagrada",discordUrl:"",mustTry:"하몽 + 상그리아",source:"예진"},
+  {country:"Spain",flag:"🇪🇸",city:"Granada",place:"Alhambra Palace",category:"역사·건축",tip:"하루 입장 인원 제한. 최소 2-3달 전 예매 필수. 나스리드 궁전 입장 시간 꼭 확인.",mapUrl:"https://maps.app.goo.gl/alhambra",discordUrl:"",mustTry:"타파스 + 셰리주",source:"준혁"},
+  {country:"Taiwan",flag:"🇹🇼",city:"Taipei",place:"Jiufen Old Street",category:"산책·야경",tip:"비 올 때 더 분위기 있음. 저녁 6시 이후 홍등 켜지면 환상적. 하이힐 절대 금지.",mapUrl:"https://maps.app.goo.gl/jiufen",discordUrl:"",mustTry:"타로볼",source:"혜림"},
+  {country:"Vietnam",flag:"🇻🇳",city:"Hoi An",place:"호이안 올드타운",category:"산책·역사",tip:"자전거 빌려서 투본강 따라 달리면 최고. 랜턴 축제는 음력 14일마다.",mapUrl:"https://maps.app.goo.gl/hoian",discordUrl:"",mustTry:"까오러우",source:"서윤"},
+  {country:"Portugal",flag:"🇵🇹",city:"Lisbon",place:"LX Factory",category:"쇼핑·문화",tip:"주말 마켓이 제일 활발함. 루프탑 바에서 테주 강 뷰 추천.",mapUrl:"https://maps.app.goo.gl/lxfactory",discordUrl:"",mustTry:"파스텔 드 나타",source:"민경"},
+  {country:"Morocco",flag:"🇲🇦",city:"Marrakech",place:"Djemaa el-Fna",category:"로컬·문화",tip:"저녁 노점 가격 흥정 필수. 뱀 구경 시 돈 요구 조심. 밤 분위기 최고.",mapUrl:"https://maps.app.goo.gl/marrakech",discordUrl:"",mustTry:"타진 + 민트티",source:"도현"},
 ];
 
 let ALL_DATA = [];
 let activeCountry = "ALL";
-const stars = n => "★".repeat(n) + "☆".repeat(5-n);
 
 function parseCSV(csv) {
   const lines = csv.trim().split("\n").filter(Boolean);
   if (lines.length < 2) return [];
   return lines.slice(1).map(line => {
-    // handle quoted commas
     const cols = [];
     let cur = "", inQ = false;
     for (const ch of line) {
@@ -229,7 +229,19 @@ function parseCSV(csv) {
       cur += ch;
     }
     cols.push(cur.trim());
-    return {country:cols[0]||"",city:cols[1]||"",place:cols[2]||"",category:cols[3]||"",rating:parseInt(cols[4])||3,tip:cols[5]||"",mapUrl:cols[6]||"",mustTry:cols[7]||"",source:cols[8]||"",flag:cols[9]||"🌍"};
+    // Country, City, Place, Category, Tip, MapURL, DiscordURL, MustTry, Source, Flag
+    return {
+      country:    cols[0]||"",
+      city:       cols[1]||"",
+      place:      cols[2]||"",
+      category:   cols[3]||"",
+      tip:        cols[4]||"",
+      mapUrl:     cols[5]||"",
+      discordUrl: cols[6]||"",
+      mustTry:    cols[7]||"",
+      source:     cols[8]||"",
+      flag:       cols[9]||"🌍",
+    };
   }).filter(d => d.country && d.place);
 }
 
@@ -240,9 +252,7 @@ async function loadData() {
       const text = await res.text();
       ALL_DATA = parseCSV(text);
       document.getElementById("setup-banner").style.display = "none";
-    } catch(e) {
-      ALL_DATA = SAMPLE;
-    }
+    } catch(e) { ALL_DATA = SAMPLE; }
   } else {
     ALL_DATA = SAMPLE;
   }
@@ -254,7 +264,7 @@ async function loadData() {
 function buildChips() {
   const countries = ["ALL", ...new Set(ALL_DATA.map(d => d.country))];
   document.getElementById("chips").innerHTML = countries.map(c => {
-    const flag = c === "ALL" ? "" : (ALL_DATA.find(d=>d.country===c)?.flag ?? "");
+    const flag = c === "ALL" ? "" : (ALL_DATA.find(d => d.country===c)?.flag ?? "");
     const label = c === "ALL" ? "전체" : `${flag} ${c}`;
     return `<button class="chip${c==="ALL"?" on":""}" data-c="${c}" onclick="setCountry('${c}')">${label}</button>`;
   }).join("");
@@ -270,6 +280,19 @@ function getFiltered() {
   return activeCountry === "ALL" ? ALL_DATA : ALL_DATA.filter(d => d.country === activeCountry);
 }
 
+function linkButtons(d) {
+  let html = "";
+  if (d.mapUrl)     html += `<a class="map-link" href="${d.mapUrl}" target="_blank">🗺 지도</a>`;
+  if (d.discordUrl) html += `<a class="discord-link" href="${d.discordUrl}" target="_blank">💬 원문</a>`;
+  return html;
+}
+function tableLinkButtons(d) {
+  let html = "";
+  if (d.mapUrl)     html += `<a class="tl-map" href="${d.mapUrl}" target="_blank">🗺 지도</a>`;
+  if (d.discordUrl) html += `<a class="tl-dc" href="${d.discordUrl}" target="_blank">💬 원문</a>`;
+  return html ? `<div class="td-links">${html}</div>` : "—";
+}
+
 function render() {
   const items = getFiltered();
   document.getElementById("empty").classList.toggle("show", !items.length);
@@ -278,10 +301,7 @@ function render() {
   document.getElementById("card-grid").innerHTML = items.map((d, i) => `
     <div class="card" style="animation-delay:${Math.min(i*35,400)}ms">
       <div class="card-shimmer"></div>
-      <div class="card-top">
-        <div class="card-flag">${d.flag}</div>
-        <div class="card-stars">${stars(d.rating)}</div>
-      </div>
+      <div class="card-top"><div class="card-flag">${d.flag}</div></div>
       <div class="card-country">${d.country}</div>
       <div class="card-place">${d.place}</div>
       <div class="card-city">📍 ${d.city}</div>
@@ -290,7 +310,7 @@ function render() {
       ${d.mustTry ? `<div class="card-must">🍴 Must try: <b>${d.mustTry}</b></div>` : ""}
       <div class="card-footer">
         <div class="card-source">from <b>${d.source}</b></div>
-        ${d.mapUrl ? `<a class="map-link" href="${d.mapUrl}" target="_blank">🗺 지도</a>` : ""}
+        <div class="card-links">${linkButtons(d)}</div>
       </div>
     </div>
   `).join("");
@@ -302,8 +322,7 @@ function render() {
       <td><div class="td-name">${d.place}</div><div class="td-city">${d.city}</div></td>
       <td><span class="td-cat">${d.category}</span></td>
       <td class="td-tip">${d.tip}</td>
-      <td class="td-stars">${stars(d.rating)}</td>
-      <td class="td-map">${d.mapUrl ? `<a href="${d.mapUrl}" target="_blank">🗺 열기</a>` : "—"}</td>
+      <td>${tableLinkButtons(d)}</td>
       <td class="td-src">${d.source}</td>
     </tr>
   `).join("");
