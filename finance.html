@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AnB Finance Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+:root {
+  --bg: #080b0f;
+  --s1: #0e1318;
+  --s2: #141a20;
+  --s3: #1c2430;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.12);
+  --green: #00d084;
+  --green-dim: rgba(0,208,132,0.12);
+  --green-glow: rgba(0,208,132,0.2);
+  --yellow: #f5c842;
+  --yellow-dim: rgba(245,200,66,0.1);
+  --red: #ff4d6d;
+  --red-dim: rgba(255,77,109,0.1);
+  --blue: #4d9fff;
+  --blue-dim: rgba(77,159,255,0.1);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167,139,250,0.1);
+  --text: #e2e8f0;
+  --muted: #5a6a7a;
+  --muted2: #8896a6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Pretendard',sans-serif;font-size:14px;min-height:100vh;overflow-x:hidden}
+
+/* grain */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");pointer-events:none;z-index:999}
+
+/* grid bg */
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,208,132,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,208,132,0.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+
+/* ── HEADER ── */
+header{position:sticky;top:0;z-index:100;height:58px;background:rgba(8,11,15,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px}
+.logo{font-family:'Russo One',sans-serif;font-size:16px;letter-spacing:1px;color:#fff;display:flex;align-items:center;gap:10px}
+.logo-badge{background:var(--green);color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:1px}
+.header-date{font-size:11px;color:var(--muted);font-family:'Bebas Neue',sans-serif;letter-spacing:2px}
+
+/* ── HERO ── */
+.hero{padding:60px 40px 40px;position:relative;z-index:1}
+.hero-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--green);font-family:'Bebas Neue',sans-serif;margin-bottom:12px}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,6vw,80px);line-height:1;letter-spacing:2px;color:#fff;margin-bottom:12px}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero-sub{font-size:14px;color:var(--muted2);line-height:1.7;max-width:520px}
+.hero-sub b{color:var(--text)}
+
+/* ── TABS ── */
+.tabs-wrap{padding:0 40px;position:relative;z-index:1;margin-bottom:32px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:none;border:none;cursor:pointer;padding:12px 20px;font-family:'Pretendard',sans-serif;font-size:13px;font-weight:500;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.tab:hover{color:var(--text)}
+.tab.on{color:var(--green);border-bottom-color:var(--green)}
+.tab-dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.6}
+
+/* ── CONTENT ── */
+.content{padding:0 40px 80px;position:relative;z-index:1}
+.tab-panel{display:none}
+.tab-panel.on{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION TITLE ── */
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:#fff;margin-bottom:6px}
+.section-desc{font-size:12px;color:var(--muted2);margin-bottom:28px;line-height:1.6}
+
+/* ════════════════════════════════
+   TAB 1 — D-DAY DEADLINES
+════════════════════════════════ */
+.dday-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.dday-card{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:20px;position:relative;overflow:hidden;transition:all .2s}
+.dday-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.dday-card.urgent{border-color:rgba(255,77,109,.3);background:linear-gradient(135deg,var(--s1),rgba(255,77,109,.04))}
+.dday-card.soon{border-color:rgba(245,200,66,.25);background:linear-gradient(135deg,var(--s1),rgba(245,200,66,.04))}
+.dday-card.ended{opacity:.4;filter:grayscale(.8)}
+.dday-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.dday-cat{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-family:'Bebas Neue',sans-serif;padding:3px 8px;border-radius:4px}
+.cat-bank{background:var(--blue-dim);color:var(--blue)}
+.cat-scholarship{background:var(--purple-dim);color:var(--purple)}
+.cat-startup{background:var(--green-dim);color:var(--green)}
+.cat-stock{background:var(--yellow-dim);color:var(--yellow)}
+.cat-other{background:var(--s3);color:var(--muted2)}
+.dday-badge{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px}
+.dday-badge.red{color:var(--red)}
+.dday-badge.yellow{color:var(--yellow)}
+.dday-badge.green{color:var(--green)}
+.dday-badge.muted{color:var(--muted)}
+.dday-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.3}
+.dday-desc{font-size:12px;color:var(--muted2);line-height:1.6;margin-bottom:14px}
+.dday-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border)}
+.dday-date{font-size:11px;color:var(--muted)}
+.dday-date b{color:var(--muted2)}
+.dday-link{font-size:11px;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:4px}
+.dday-link:hover{text-decoration:underline}
+
+/* ════════════════════════════════
+   TAB 2 — INSIGHT ARCHIVE
+════════════════════════════════ */
+.insight-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
+.i-chip{background:var(--s2);border:1px solid var(--border);color:var(--muted2);font-size:12px;padding:6px 14px;border-radius:100px;cursor:pointer;transition:all .18s;font-family:'Pretendard',sans-serif}
+.i-chip:hover{border-color:var(--border2);color:var(--text)}
+.i-chip.on{background:var(--green);border-color:var(--green);color:#000;font-weight:600}
+.insight-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.insight-card{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:22px;transition:all .2s;animation:fadeIn .3s ease both}
+.insight-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.3)}
+.insight-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.insight-tag{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Bebas Neue',sans-serif;color:var(--green)}
+.insight-type{font-size:10px;color:var(--muted);background:var(--s3);padding:2px 8px;border-radius:4px}
+.insight-title{font-size:16px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:8px}
+.insight-summary{font-size:12.5px;color:var(--muted2);line-height:1.7;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.insight-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border)}
+.insight-from{font-size:11px;color:var(--muted)}
+.insight-from b{color:var(--muted2)}
+.insight-links{display:flex;gap:6px}
+.il-btn{font-size:11px;padding:4px 10px;border-radius:6px;text-decoration:none;transition:all .15s}
+.il-green{background:var(--green-dim);color:var(--green);border:1px solid rgba(0,208,132,.2)}
+.il-green:hover{background:var(--green);color:#000}
+.il-blue{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(77,159,255,.2)}
+.il-blue:hover{background:var(--blue);color:#fff}
+
+/* ════════════════════════════════
+   TAB 3 — 투자 원칙
+════════════════════════════════ */
+.principles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.principle-card{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:24px;transition:all .2s;animation:fadeIn .3s ease both}
+.principle-card:hover{border-color:rgba(0,208,132,.2);box-shadow:0 0 0 1px rgba(0,208,132,.05)}
+.pc-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.pc-avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--green),var(--blue));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.pc-name{font-weight:700;color:#fff;font-size:14px}
+.pc-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.pc-section{margin-bottom:14px}
+.pc-section-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-family:'Bebas Neue',sans-serif;margin-bottom:6px}
+.pc-rule{font-size:12.5px;color:var(--muted2);line-height:1.7;padding-left:10px;border-left:2px solid var(--s3)}
+.pc-discord{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.pc-discord a{font-size:11px;color:var(--purple);text-decoration:none;display:flex;align-items:center;gap:5px}
+.pc-discord a:hover{text-decoration:underline}
+
+/* ════════════════════════════════
+   TAB 4 — 2026 목표
+════════════════════════════════ */
+.goals-header{display:flex;align-items:center;gap:16px;margin-bottom:28px;background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:20px 24px}
+.goals-stat{text-align:center}
+.goals-stat-num{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--green);line-height:1}
+.goals-stat-label{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+.goals-divider{width:1px;height:40px;background:var(--border)}
+.goals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.goal-card{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:22px;transition:all .2s;animation:fadeIn .3s ease both;position:relative;overflow:hidden}
+.goal-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.goal-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--blue));opacity:0;transition:opacity .3s}
+.goal-card:hover::before{opacity:1}
+.goal-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.goal-nick{font-weight:700;color:#fff;font-size:14px}
+.goal-status{font-size:10px;padding:3px 8px;border-radius:100px;font-weight:600}
+.status-ongoing{background:var(--green-dim);color:var(--green)}
+.status-achieved{background:rgba(245,200,66,.15);color:var(--yellow)}
+.status-pending{background:var(--s3);color:var(--muted)}
+.goal-text{font-size:13px;color:var(--text);line-height:1.6;margin-bottom:12px;font-weight:500}
+.goal-detail{font-size:12px;color:var(--muted2);line-height:1.65;margin-bottom:14px}
+.goal-progress-wrap{margin-bottom:14px}
+.goal-progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px}
+.goal-progress-label b{color:var(--green)}
+.progress-bar{background:var(--s3);border-radius:100px;height:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--green),var(--blue));transition:width .6s ease}
+.goal-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border)}
+.goal-date{font-size:11px;color:var(--muted)}
+.goal-discord a{font-size:11px;color:var(--purple);text-decoration:none}
+.goal-discord a:hover{text-decoration:underline}
+
+/* ── EMPTY ── */
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-icon{font-size:40px;margin-bottom:12px;opacity:.4}
+
+/* ── SETUP ── */
+.setup-banner{margin-bottom:24px;background:rgba(0,208,132,.06);border:1px solid rgba(0,208,132,.15);border-radius:14px;padding:16px 20px;display:flex;align-items:flex-start;gap:12px}
+.setup-text h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px}
+.setup-text p{font-size:12px;color:var(--muted2);line-height:1.8}
+.setup-text code{background:var(--s3);padding:1px 6px;border-radius:4px;font-family:monospace;font-size:11px;color:var(--green)}
+.setup-close{margin-left:auto;background:none;border:none;cursor:pointer;color:var(--muted);font-size:16px;flex-shrink:0}
+
+/* ── SCROLL TOP ── */
+#go-top{position:fixed;bottom:28px;right:28px;z-index:50;width:40px;height:40px;border-radius:10px;background:var(--s2);border:1px solid var(--border);color:var(--muted2);font-size:16px;cursor:pointer;display:none;align-items:center;justify-content:center;transition:all .2s}
+#go-top.show{display:flex}
+#go-top:hover{background:var(--green);border-color:var(--green);color:#000}
+
+@media(max-width:640px){
+  header,.hero,.tabs-wrap,.content{padding-left:16px;padding-right:16px}
+  .hero{padding-top:40px}
+  .dday-grid,.insight-grid,.principles-grid,.goals-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span>AnB</span>
+    <span class="logo-badge">FINANCE</span>
+  </div>
+  <div class="header-date" id="today-date"></div>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">AnB Community · Finance Hub</div>
+  <h1>INVEST SMART,<br><em>GROW TOGETHER</em></h1>
+  <p class="hero-sub">마감 정보부터 투자 인사이트, 원칙, 목표까지 —<br><b>AnB 멤버들의 금융 지식을 한 곳에서</b></p>
+</section>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab on" onclick="switchTab('dday')"><span class="tab-dot"></span>⏰ 마감 알림</button>
+    <button class="tab" onclick="switchTab('insight')"><span class="tab-dot"></span>💡 인사이트</button>
+    <button class="tab" onclick="switchTab('principles')"><span class="tab-dot"></span>📐 투자 원칙</button>
+    <button class="tab" onclick="switchTab('goals')"><span class="tab-dot"></span>🎯 2026 목표</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ── TAB 1: D-DAY ── -->
+  <div class="tab-panel on" id="panel-dday">
+    <div class="section-title">마감 알림</div>
+    <p class="section-desc">파킹통장 · 장학금 · 창업지원 · 공모주 등 — 마감 임박순 정렬 · 지난 항목 자동 흐리게</p>
+
+    <div class="setup-banner" id="setup-dday">
+      <div style="font-size:20px;flex-shrink:0">⚙️</div>
+      <div class="setup-text">
+        <h3>구글 시트 연동</h3>
+        <p>시트 컬럼: <code>Title</code> <code>Category</code> <code>Desc</code> <code>Deadline(YYYY-MM-DD)</code> <code>URL</code><br>
+        파일 상단 <code>DDAY_CSV</code> 에 CSV 게시 URL 붙여넣기</p>
+      </div>
+      <button class="setup-close" onclick="this.closest('.setup-banner').style.display='none'">✕</button>
+    </div>
+
+    <div class="dday-grid" id="dday-grid"></div>
+  </div>
+
+  <!-- ── TAB 2: INSIGHT ── -->
+  <div class="tab-panel" id="panel-insight">
+    <div class="section-title">인사이트 아카이브</div>
+    <p class="section-desc">책 요약 · 뉴스 · 분석 · 멤버 제보 — 주제별로 필터해서 보세요</p>
+
+    <div class="setup-banner" id="setup-insight">
+      <div style="font-size:20px;flex-shrink:0">⚙️</div>
+      <div class="setup-text">
+        <h3>구글 시트 연동</h3>
+        <p>시트 컬럼: <code>Title</code> <code>Category</code> <code>Type(책/뉴스/분석/기타)</code> <code>Summary</code> <code>URL</code> <code>DiscordURL</code> <code>Source</code><br>
+        파일 상단 <code>INSIGHT_CSV</code> 에 URL 붙여넣기</p>
+      </div>
+      <button class="setup-close" onclick="this.closest('.setup-banner').style.display='none'">✕</button>
+    </div>
+
+    <div class="insight-filter" id="insight-filter"></div>
+    <div class="insight-grid" id="insight-grid"></div>
+  </div>
+
+  <!-- ── TAB 3: 투자 원칙 ── -->
+  <div class="tab-panel" id="panel-principles">
+    <div class="section-title">투자 원칙 갤러리</div>
+    <p class="section-desc">AnB 멤버들의 나만의 투자 원칙 — 종목 선정 · 매수매도 · 리스크 관리 · 점검 주기</p>
+
+    <div class="setup-banner" id="setup-principles">
+      <div style="font-size:20px;flex-shrink:0">⚙️</div>
+      <div class="setup-text">
+        <h3>구글 시트 연동</h3>
+        <p>시트 컬럼: <code>Nickname</code> <code>Emoji</code> <code>Selection</code> <code>BuySell</code> <code>Risk</code> <code>Review</code> <code>DiscordURL</code><br>
+        파일 상단 <code>PRINCIPLES_CSV</code> 에 URL 붙여넣기</p>
+      </div>
+      <button class="setup-close" onclick="this.closest('.setup-banner').style.display='none'">✕</button>
+    </div>
+
+    <div class="principles-grid" id="principles-grid"></div>
+  </div>
+
+  <!-- ── TAB 4: 2026 목표 ── -->
+  <div class="tab-panel" id="panel-goals">
+    <div class="section-title">2026 목표 선언</div>
+    <p class="section-desc">AnB 멤버들의 2026년 목표 — 선언하고, 기록하고, 연말에 발표하자 🎯</p>
+
+    <div class="setup-banner" id="setup-goals">
+      <div style="font-size:20px;flex-shrink:0">⚙️</div>
+      <div class="setup-text">
+        <h3>구글 시트 연동</h3>
+        <p>시트 컬럼: <code>Nickname</code> <code>Goal</code> <code>Detail</code> <code>Progress(0-100)</code> <code>Status(진행중/달성/시작전)</code> <code>DiscordURL</code> <code>Date</code><br>
+        파일 상단 <code>GOALS_CSV</code> 에 URL 붙여넣기</p>
+      </div>
+      <button class="setup-close" onclick="this.closest('.setup-banner').style.display='none'">✕</button>
+    </div>
+
+    <div class="goals-header" id="goals-header"></div>
+    <div class="goals-grid" id="goals-grid"></div>
+  </div>
+
+</div>
+
+<button id="go-top" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ══════════════════════════════════════════════
+//  구글 시트 CSV URL — 각각 붙여넣기
+// ══════════════════════════════════════════════
+const DDAY_CSV       = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-nGtjE5FMXvblqNoIjQ3_w84eqLFxOjQtmNCyf7qt1PXPMc6v1VMK1HXUm0tsZL-UABL-5eecr5Ii/pub?output=csv";
+const INSIGHT_CSV    = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-nGtjE5FMXvblqNoIjQ3_w84eqLFxOjQtmNCyf7qt1PXPMc6v1VMK1HXUm0tsZL-UABL-5eecr5Ii/pub?gid=548107069&single=true&output=csv";
+const PRINCIPLES_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-nGtjE5FMXvblqNoIjQ3_w84eqLFxOjQtmNCyf7qt1PXPMc6v1VMK1HXUm0tsZL-UABL-5eecr5Ii/pub?gid=1264485979&single=true&output=csv";
+const GOALS_CSV      = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-nGtjE5FMXvblqNoIjQ3_w84eqLFxOjQtmNCyf7qt1PXPMc6v1VMK1HXUm0tsZL-UABL-5eecr5Ii/pub?gid=115856084&single=true&output=csv";
+
+// ── 샘플 데이터 ──────────────────────────────
+
+const SAMPLE_DDAY = [
+  {title:"케이뱅크 파킹통장 우대금리",category:"bank",desc:"신규 가입 시 연 4.0% 우대금리 적용. 100만원 이상 예치 필수.",deadline:"2026-03-25",url:""},
+  {title:"2026 청년창업사관학교",category:"startup",desc:"만 39세 이하 예비창업자 대상. 최대 1억원 지원. 서류 접수 마감.",deadline:"2026-04-10",url:""},
+  {title:"국가장학금 2차 신청",category:"scholarship",desc:"소득분위 8구간 이하 재학생 대상. 모바일 앱으로도 신청 가능.",deadline:"2026-03-31",url:""},
+  {title:"삼성전자 우리사주 청약",category:"stock",desc:"직원 대상 우리사주 청약. 배정 물량 한정. 증권계좌 사전 등록 필요.",deadline:"2026-03-20",url:""},
+  {title:"소상공인 정책자금 1분기",category:"startup",desc:"업력 1년 이상 소상공인 대상. 최대 7천만원 저금리 대출.",deadline:"2026-04-30",url:""},
+  {title:"토스뱅크 파킹통장 이벤트",category:"bank",desc:"첫 가입 후 30일간 연 5% 금리 적용. 한도 500만원.",deadline:"2026-03-15",url:""},
+];
+
+const SAMPLE_INSIGHT = [
+  {title:"돈의 심리학",category:"주식",type:"책",summary:"모건 하우절이 말하는 부를 쌓는 사람들의 공통된 행동 패턴. 수익률보다 행동이 중요하다는 핵심 메시지. 장기 투자자라면 필독.",url:"",discordUrl:"",source:"zzing"},
+  {title:"2026 미국 금리 인하 타임라인",category:"크립토",type:"분석",summary:"연준 의사록 분석 결과 6월 첫 인하 가능성 65%. 비트코인과 나스닥 상관관계가 다시 높아지는 구간 주의.",url:"",discordUrl:"",source:"민재"},
+  {title:"서울 아파트 전세가율 분석",category:"부동산",type:"분석",summary:"강남3구 전세가율 55% 돌파. 갭투자 리스크 구간 진입 여부 체크 포인트 정리.",url:"",discordUrl:"",source:"수진"},
+  {title:"넥스트 엔비디아를 찾아라",category:"주식",type:"뉴스",summary:"AI 인프라 수혜주 2라운드. 전력·냉각·광통신 섹터로 자금 이동 포착. 관련 ETF 리스트 공유.",url:"",discordUrl:"",source:"현우"},
+  {title:"비트코인 ETF 자금 흐름",category:"크립토",type:"분석",summary:"1월 이후 누적 순유입 $120억 돌파. 기관 매수세 지속 여부가 핵심 변수.",url:"",discordUrl:"",source:"태민"},
+  {title:"창업 전에 읽어야 할 책 5권",category:"창업",type:"책",summary:"린 스타트업, 제로 투 원, 하드씽 등 실전 창업가들이 공통 추천한 도서 목록과 핵심 요약.",url:"",discordUrl:"",source:"예진"},
+];
+
+const SAMPLE_PRINCIPLES = [
+  {nickname:"zzing",emoji:"🦅",selection:"매출액 3년 연속 성장 + 일상에서 직접 쓰는 서비스만 산다. PER 25 이하 필수.",buySell:"수익률 +20% 도달시 30% 분할 매도. 손절은 -15% 룰 철저히 지킨다.",risk:"한 종목 최대 자산의 15%. 시장 폭락시 현금 30% 유지하고 추가 매수 대기.",review:"매월 말일 포트폴리오 점검. 분기별 전략 재검토.",discordUrl:""},
+  {nickname:"민재",emoji:"📊",selection:"ROE 15% 이상 + 부채비율 100% 이하. 경쟁사 대비 밸류에이션 저평가 구간만.",buySell:"목표가 설정 후 분할 매수 3회. 목표가 도달 시 50% 매도.",risk:"포트폴리오 내 단일 섹터 30% 초과 금지. 레버리지 절대 금지.",review:"매주 일요일 뉴스 체크. 실적 발표 전후 포지션 재검토.",discordUrl:""},
+  {nickname:"수진",emoji:"🏠",selection:"수도권 역세권 + 학군 + 개발 호재 3가지 동시 충족 지역만 투자.",buySell:"갭투자 시 전세가율 60% 이하 구간에서만 진입. 보유 5년 이상 원칙.",risk:"대출 LTV 50% 초과 금지. DSR 고려한 현금흐름 월 플러스 확인 필수.",review:"반기별 공시지가 및 실거래가 추이 점검.",discordUrl:""},
+];
+
+const SAMPLE_GOALS = [
+  {nickname:"zzing",goal:"연간 수익률 30% 달성",detail:"분산 투자 원칙 지키면서 국내주식 50% 미국ETF 30% 현금 20% 비율 유지",progress:22,status:"진행중",discordUrl:"",date:"2026-01-01"},
+  {nickname:"민재",goal:"비상금 3000만원 만들기",detail:"매달 150만원씩 파킹통장 + CMA 자동 이체. 연말까지 3000 달성 목표",progress:15,status:"진행중",discordUrl:"",date:"2026-01-03"},
+  {nickname:"수진",goal:"투자 원칙 1년 간 100% 준수",detail:"원칙 어기는 충동매매 제로. 매달 원칙 위반 횟수 기록",progress:60,status:"진행중",discordUrl:"",date:"2026-01-02"},
+  {nickname:"현우",goal:"부동산 스터디 완주",detail:"월 2회 부동산 임장 + 분기별 지역 분석 보고서 작성",progress:33,status:"진행중",discordUrl:"",date:"2026-01-05"},
+  {nickname:"예진",goal:"경제 책 12권 완독",detail:"한 달에 한 권. 독서 후 디스코드에 요약 공유",progress:25,status:"진행중",discordUrl:"",date:"2026-01-01"},
+];
+
+// ── utils ─────────────────────────────────────
+function calcDday(dateStr) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const target = new Date(dateStr); target.setHours(0,0,0,0);
+  return Math.ceil((target - today) / 86400000);
+}
+function ddayLabel(d) {
+  if (d < 0)  return "마감";
+  if (d === 0) return "D-DAY";
+  return `D-${d}`;
+}
+function ddayClass(d) {
+  if (d < 0)  return "muted";
+  if (d <= 3) return "red";
+  if (d <= 7) return "yellow";
+  return "green";
+}
+function cardUrgency(d) {
+  if (d < 0)  return "ended";
+  if (d <= 3) return "urgent";
+  if (d <= 7) return "soon";
+  return "";
+}
+function catClass(c) {
+  const m = {bank:"cat-bank",scholarship:"cat-scholarship",startup:"cat-startup",stock:"cat-stock"};
+  return m[c] || "cat-other";
+}
+function catLabel(c) {
+  const m = {bank:"파킹·예금",scholarship:"장학금",startup:"창업지원",stock:"공모·청약",other:"기타"};
+  return m[c] || c;
+}
+function parseCSV(csv) {
+  const lines = csv.trim().split("\n").filter(Boolean);
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(",").map(h=>h.trim().replace(/^"|"$/g,"").toLowerCase());
+  return lines.slice(1).map(line => {
+    const cols=[]; let cur="",inQ=false;
+    for(const ch of line){if(ch==='"'){inQ=!inQ;continue}if(ch===','&&!inQ){cols.push(cur.trim());cur="";continue}cur+=ch}
+    cols.push(cur.trim());
+    const obj={};
+    headers.forEach((h,i)=>obj[h]=(cols[i]||"").replace(/^"|"$/g,""));
+    return obj;
+  });
+}
+async function fetchCSV(url) {
+  const res = await fetch(url);
+  return parseCSV(await res.text());
+}
+
+// ── TAB SWITCH ───────────────────────────────
+function switchTab(id) {
+  document.querySelectorAll(".tab").forEach((t,i)=>{
+    const ids=["dday","insight","principles","goals"];
+    t.classList.toggle("on", ids[i]===id);
+  });
+  document.querySelectorAll(".tab-panel").forEach(p=>p.classList.toggle("on", p.id==="panel-"+id));
+}
+
+// ── RENDER DDAY ──────────────────────────────
+function renderDday(data) {
+  const sorted = [...data].sort((a,b)=>{
+    const da=calcDday(a.deadline), db=calcDday(b.deadline);
+    if(da<0&&db>=0) return 1;
+    if(db<0&&da>=0) return -1;
+    return da-db;
+  });
+  document.getElementById("dday-grid").innerHTML = sorted.map(d=>{
+    const dd=calcDday(d.deadline);
+    return `<div class="dday-card ${cardUrgency(dd)}">
+      <div class="dday-top">
+        <span class="dday-cat ${catClass(d.category)}">${catLabel(d.category)}</span>
+        <span class="dday-badge ${ddayClass(dd)}">${ddayLabel(dd)}</span>
+      </div>
+      <div class="dday-title">${d.title}</div>
+      <div class="dday-desc">${d.desc||d.description||""}</div>
+      <div class="dday-footer">
+        <div class="dday-date">마감 <b>${d.deadline}</b></div>
+        ${d.url?`<a class="dday-link" href="${d.url}" target="_blank">자세히 →</a>`:""}
+      </div>
+    </div>`;
+  }).join("");
+}
+
+// ── RENDER INSIGHT ───────────────────────────
+let insightData=[], activeInsightCat="전체";
+function renderInsight(data) {
+  insightData = data;
+  const cats = ["전체", ...new Set(data.map(d=>d.category))];
+  document.getElementById("insight-filter").innerHTML = cats.map(c=>
+    `<button class="i-chip${c==="전체"?" on":""}" onclick="filterInsight('${c}')">${c}</button>`
+  ).join("");
+  filterInsight("전체");
+}
+function filterInsight(cat) {
+  activeInsightCat = cat;
+  document.querySelectorAll(".i-chip").forEach(el=>el.classList.toggle("on", el.textContent===cat));
+  const items = cat==="전체" ? insightData : insightData.filter(d=>d.category===cat);
+  document.getElementById("insight-grid").innerHTML = items.map((d,i)=>`
+    <div class="insight-card" style="animation-delay:${i*30}ms">
+      <div class="insight-top">
+        <span class="insight-tag">${d.category}</span>
+        <span class="insight-type">${d.type||""}</span>
+      </div>
+      <div class="insight-title">${d.title}</div>
+      <div class="insight-summary">${d.summary||d.desc||""}</div>
+      <div class="insight-footer">
+        <div class="insight-from">from <b>${d.source||""}</b></div>
+        <div class="insight-links">
+          ${d.url?`<a class="il-btn il-green" href="${d.url}" target="_blank">🔗 원문</a>`:""}
+          ${d.discordurl||d.discordUrl?`<a class="il-btn il-blue" href="${d.discordurl||d.discordUrl}" target="_blank">💬 디스코드</a>`:""}
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+// ── RENDER PRINCIPLES ────────────────────────
+function renderPrinciples(data) {
+  document.getElementById("principles-grid").innerHTML = data.map((d,i)=>`
+    <div class="principle-card" style="animation-delay:${i*40}ms">
+      <div class="pc-header">
+        <div class="pc-avatar">${d.emoji||"💼"}</div>
+        <div>
+          <div class="pc-name">${d.nickname}</div>
+          <div class="pc-meta">투자 원칙서</div>
+        </div>
+      </div>
+      ${d.selection?`<div class="pc-section"><div class="pc-section-title">📌 종목 선정 기준</div><div class="pc-rule">${d.selection}</div></div>`:""}
+      ${d.buysell||d.buySell?`<div class="pc-section"><div class="pc-section-title">📈 매수·매도 원칙</div><div class="pc-rule">${d.buysell||d.buySell}</div></div>`:""}
+      ${d.risk?`<div class="pc-section"><div class="pc-section-title">🛡 리스크 관리</div><div class="pc-rule">${d.risk}</div></div>`:""}
+      ${d.review?`<div class="pc-section"><div class="pc-section-title">🔄 포트폴리오 점검</div><div class="pc-rule">${d.review}</div></div>`:""}
+      ${d.discordurl||d.discordUrl?`<div class="pc-discord"><a href="${d.discordurl||d.discordUrl}" target="_blank">💬 디스코드 원문 보기</a></div>`:""}
+    </div>
+  `).join("");
+}
+
+// ── RENDER GOALS ─────────────────────────────
+function renderGoals(data) {
+  const total = data.length;
+  const achieved = data.filter(d=>(d.status||"").includes("달성")).length;
+  const ongoing = data.filter(d=>(d.status||"").includes("진행")).length;
+  document.getElementById("goals-header").innerHTML = `
+    <div class="goals-stat"><div class="goals-stat-num">${total}</div><div class="goals-stat-label">참여자</div></div>
+    <div class="goals-divider"></div>
+    <div class="goals-stat"><div class="goals-stat-num">${ongoing}</div><div class="goals-stat-label">진행중</div></div>
+    <div class="goals-divider"></div>
+    <div class="goals-stat"><div class="goals-stat-num">${achieved}</div><div class="goals-stat-label">달성</div></div>
+    <div style="flex:1"></div>
+    <div style="font-size:12px;color:var(--muted)">2026년 남은 날: <b style="color:var(--green)">${calcDday("2026-12-31")}일</b></div>
+  `;
+  document.getElementById("goals-grid").innerHTML = data.map((d,i)=>{
+    const pct = Math.min(100, parseInt(d.progress)||0);
+    const statusMap = {"진행중":"ongoing","달성":"achieved","시작전":"pending"};
+    const statusKey = statusMap[d.status] || "pending";
+    return `<div class="goal-card" style="animation-delay:${i*35}ms">
+      <div class="goal-top">
+        <div class="goal-nick">${d.nickname}</div>
+        <span class="goal-status status-${statusKey}">${d.status||"시작전"}</span>
+      </div>
+      <div class="goal-text">🎯 ${d.goal}</div>
+      ${d.detail?`<div class="goal-detail">${d.detail}</div>`:""}
+      <div class="goal-progress-wrap">
+        <div class="goal-progress-label"><span>진행률</span><b>${pct}%</b></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="goal-footer">
+        <div class="goal-date">${d.date||""}</div>
+        ${d.discordurl||d.discordUrl?`<div class="goal-discord"><a href="${d.discordurl||d.discordUrl}" target="_blank">💬 원문</a></div>`:""}
+      </div>
+    </div>`;
+  }).join("");
+}
+
+// ── LOAD ALL ─────────────────────────────────
+async function loadAll() {
+  // today
+  document.getElementById("today-date").textContent =
+    new Date().toLocaleDateString("ko-KR",{year:"numeric",month:"long",day:"numeric"});
+
+  const load = async (url, fallback) => {
+    if (!url) return fallback;
+    try { return await fetchCSV(url); } catch(e) { return fallback; }
+  };
+
+  const [dday, insight, principles, goals] = await Promise.all([
+    load(DDAY_CSV, SAMPLE_DDAY),
+    load(INSIGHT_CSV, SAMPLE_INSIGHT),
+    load(PRINCIPLES_CSV, SAMPLE_PRINCIPLES),
+    load(GOALS_CSV, SAMPLE_GOALS),
+  ]);
+
+  if (DDAY_CSV)       document.getElementById("setup-dday").style.display="none";
+  if (INSIGHT_CSV)    document.getElementById("setup-insight").style.display="none";
+  if (PRINCIPLES_CSV) document.getElementById("setup-principles").style.display="none";
+  if (GOALS_CSV)      document.getElementById("setup-goals").style.display="none";
+
+  renderDday(dday);
+  renderInsight(insight);
+  renderPrinciples(principles);
+  renderGoals(goals);
+}
+
+window.addEventListener("scroll",()=>{
+  document.getElementById("go-top").classList.toggle("show", scrollY>400);
+});
+
+loadAll();
+</script>
+</body>
+</html>
