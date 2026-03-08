@@ -78,8 +78,8 @@ header{position:sticky;top:0;z-index:100;height:60px;background:rgba(8,8,15,0.85
 .card-city{font-size:12px;color:var(--muted);margin-bottom:14px}
 .card-cat{display:inline-flex;align-items:center;background:rgba(78,205,196,.1);border:1px solid rgba(78,205,196,.2);color:var(--teal);font-size:11px;padding:3px 10px;border-radius:100px;margin-bottom:12px}
 .card-tip{font-size:12.5px;color:var(--muted2);line-height:1.7;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.card-must{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);margin-bottom:16px}
-.card-must b{color:var(--pink)}
+.card-must{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--text);margin-bottom:16px}
+.card-must b{color:var(--blue)}
 .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--border)}
 .card-source{font-size:11px;color:var(--muted)}
 .card-source b{color:var(--muted2)}
@@ -182,6 +182,9 @@ tbody td{padding:14px 18px;vertical-align:middle}
 <div class="controls">
   <span class="chip-label">나라</span>
   <div class="country-chips" id="chips"></div>
+  <div style="width:1px;height:20px;background:var(--border);margin:0 4px"></div>
+  <span class="chip-label">카테고리</span>
+  <div class="country-chips" id="cat-chips"></div>
 </div>
 
 <div class="content">
@@ -244,6 +247,7 @@ const SAMPLE = [
 
 let ALL_DATA = [];
 let activeCountry = "ALL";
+let activeCategory = "ALL";
 
 const FLAG_MAP = {
   "Japan":"🇯🇵","Korea":"🇰🇷","South Korea":"🇰🇷","한국":"🇰🇷","일본":"🇯🇵",
@@ -330,11 +334,22 @@ function buildChips() {
     const label = c === "ALL" ? "전체" : `${flag} ${c}`;
     return `<button class="chip${c==="ALL"?" on":""}" data-c="${c}" onclick="setCountry('${c}')">${label}</button>`;
   }).join("");
+
+  const cats = ["ALL", ...new Set(ALL_DATA.map(d => d.category).filter(Boolean))];
+  document.getElementById("cat-chips").innerHTML = cats.map(c => {
+    const label = c === "ALL" ? "전체" : c;
+    return `<button class="chip${c==="ALL"?" on":""}" data-cat="${c}" onclick="setCat('${c}')">${label}</button>`;
+  }).join("");
 }
 
 function setCountry(c) {
   activeCountry = c;
-  document.querySelectorAll(".chip").forEach(el => el.classList.toggle("on", el.dataset.c === c));
+  document.querySelectorAll("[data-c]").forEach(el => el.classList.toggle("on", el.dataset.c === c));
+  render();
+}
+function setCat(c) {
+  activeCategory = c;
+  document.querySelectorAll("[data-cat]").forEach(el => el.classList.toggle("on", el.dataset.cat === c));
   render();
 }
 
@@ -347,7 +362,9 @@ function toDirectImg(url) {
 }
 
 function getFiltered() {
-  return activeCountry === "ALL" ? ALL_DATA : ALL_DATA.filter(d => d.country === activeCountry);
+  return ALL_DATA
+    .filter(d => activeCountry === "ALL" || d.country === activeCountry)
+    .filter(d => activeCategory === "ALL" || d.category === activeCategory);
 }
 
 function linkButtons(d) {
@@ -380,7 +397,7 @@ function render() {
       <div class="card-city">📍 ${d.city}</div>
       <div class="card-cat">${d.category}</div>
       <div class="card-tip">💡 ${d.tip}</div>
-      ${d.mustTry ? `<div class="card-must">🍴 Must try: <b>${d.mustTry}</b></div>` : ""}
+      ${d.mustTry ? `<div class="card-must">⭐ Must try: <b>${d.mustTry}</b></div>` : ""}
       <div class="card-footer">
         <div class="card-source">from <b>${d.source}</b></div>
         <div class="card-links">${linkButtons(d)}</div>
