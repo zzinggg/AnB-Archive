@@ -56,6 +56,19 @@ header{position:sticky;top:0;z-index:100;height:60px;background:rgba(8,8,15,0.85
 .card{background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:24px;transition:transform .25s ease,border-color .25s,box-shadow .25s;animation:up .35s ease both;position:relative;overflow:hidden}
 .card:hover{transform:translateY(-3px);border-color:rgba(108,99,255,.3);box-shadow:0 16px 40px rgba(0,0,0,.4),0 0 0 1px rgba(108,99,255,.1)}
 .card-shimmer{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent) 50%,transparent);opacity:0;transition:opacity .3s}
+.card-thumb{width:72px;height:72px;border-radius:10px;object-fit:cover;cursor:pointer;flex-shrink:0;border:1px solid var(--border);transition:transform .2s,box-shadow .2s}
+.card-thumb:hover{transform:scale(1.06);box-shadow:0 4px 16px rgba(0,0,0,.4)}
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);opacity:0;pointer-events:none;transition:opacity .25s}
+.lb.open{opacity:1;pointer-events:all}
+.lb-inner{position:relative;max-width:min(700px,92vw);width:100%;animation:lbIn .25s ease}
+@keyframes lbIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.lb-img{width:100%;max-height:70vh;object-fit:contain;border-radius:16px;display:block}
+.lb-info{padding:14px 4px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.lb-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:#fff;letter-spacing:1px}
+.lb-sub{font-size:12px;color:var(--muted2);margin-top:3px}
+.lb-close{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+.lb-close:hover{background:rgba(255,255,255,.2)}
 .card:hover .card-shimmer{opacity:1}
 @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .card-top{display:flex;justify-content:flex-start;align-items:flex-start;margin-bottom:16px}
@@ -153,7 +166,7 @@ tbody td{padding:14px 18px;vertical-align:middle}
     <p>
       1. 구글 시트 → <b>파일 → 웹에 게시 → 쉼표로 구분된 값(.csv)</b> 선택 후 게시 → URL 복사<br>
       2. 이 HTML 파일 상단 <code>SHEET_CSV_URL = ""</code> 안에 URL 붙여넣기<br>
-      3. 시트 컬럼 순서: <code>Country</code> <code>City</code> <code>Place</code> <code>Category</code> <code>Tip</code> <code>MapURL</code> <code>DiscordURL</code> <code>MustTry</code> <code>Source</code> <code>Flag(🇯🇵)</code>
+      3. 시트 컬럼 순서: <code>Country</code> <code>City</code> <code>Place</code> <code>Category</code> <code>Tip</code> <code>MapURL</code> <code>DiscordURL</code> <code>MustTry</code> <code>Source</code> <code>ImageURL</code>
     </p>
   </div>
   <button class="setup-close" onclick="this.closest('.setup-banner').style.display='none'">✕</button>
@@ -186,6 +199,20 @@ tbody td{padding:14px 18px;vertical-align:middle}
     </table>
   </div>
   <div class="empty" id="empty"><div class="empty-icon">🧭</div><p>해당 나라의 등록된 장소가 없어요.</p></div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" onclick="closeLb(event)">
+  <div class="lb-inner">
+    <img class="lb-img" id="lb-img" src="" alt="">
+    <div class="lb-info">
+      <div>
+        <div class="lb-title" id="lb-title"></div>
+        <div class="lb-sub" id="lb-sub"></div>
+      </div>
+      <button class="lb-close" onclick="closeLb()">✕</button>
+    </div>
+  </div>
 </div>
 
 <button id="go-top" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
@@ -274,6 +301,7 @@ function parseCSV(csv) {
       mustTry:    cols[7]||"",
       source:     cols[8]||"",
       flag:       getFlag(country),
+      imageUrl:   cols[9]||"",
     };
   }).filter(d => d.country && d.place);
 }
@@ -310,6 +338,14 @@ function setCountry(c) {
   render();
 }
 
+function toDirectImg(url) {
+  if (!url) return "";
+  // Google Drive share link -> direct image
+  const m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w600`;
+  return url;
+}
+
 function getFiltered() {
   return activeCountry === "ALL" ? ALL_DATA : ALL_DATA.filter(d => d.country === activeCountry);
 }
@@ -335,7 +371,10 @@ function render() {
   document.getElementById("card-grid").innerHTML = items.map((d, i) => `
     <div class="card" style="animation-delay:${Math.min(i*35,400)}ms">
       <div class="card-shimmer"></div>
-      <div class="card-top"><div class="card-flag">${d.flag}</div></div>
+      <div class="card-top" style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+        <div class="card-flag">${d.flag}</div>
+        ${d.imageUrl ? `<img class="card-thumb" src="${toDirectImg(d.imageUrl)}" alt="${d.place}" loading="lazy" onclick="openLb('${toDirectImg(d.imageUrl)}','${d.place.replace(/'/g,"\'")}','${d.city} · ${d.country}')" onerror="this.style.display='none'">` : ""}
+      </div>
       <div class="card-country">${d.country}</div>
       <div class="card-place">${d.place}</div>
       <div class="card-city">📍 ${d.city}</div>
@@ -373,6 +412,20 @@ function setView(v) {
 window.addEventListener("scroll", () => {
   document.getElementById("go-top").classList.toggle("show", scrollY > 500);
 });
+
+function openLb(src, title, sub) {
+  document.getElementById("lb-img").src = src;
+  document.getElementById("lb-title").textContent = title;
+  document.getElementById("lb-sub").textContent = sub;
+  document.getElementById("lb").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeLb(e) {
+  if (e && e.target !== document.getElementById("lb")) return;
+  document.getElementById("lb").classList.remove("open");
+  document.body.style.overflow = "";
+}
+document.addEventListener("keydown", e => { if(e.key==="Escape") closeLb(); });
 
 loadData();
 </script>
