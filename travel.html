@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Travel Archive ✈️</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Russo+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
 <style>
 :root {
@@ -36,7 +36,7 @@ header{position:sticky;top:0;z-index:100;height:60px;background:rgba(8,8,15,0.85
 .hero{padding:72px 40px 48px;position:relative;overflow:hidden}
 .hero-bg{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(108,99,255,.12) 0%,transparent 70%);pointer-events:none}
 .hero-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-family:'Bebas Neue',sans-serif;margin-bottom:14px}
-.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,6vw,72px);font-weight:800;line-height:1.0;letter-spacing:2px;color:#fff;margin-bottom:14px}
+.hero h1{font-family:'Outfit',sans-serif;font-size:clamp(36px,5vw,64px);font-weight:800;line-height:1.1;letter-spacing:-1px;color:#fff;margin-bottom:14px}
 .hero h1 span{background:linear-gradient(90deg,var(--accent),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .hero-desc{color:var(--muted2);font-size:14px;line-height:1.7;max-width:480px}
 
@@ -175,16 +175,19 @@ tbody td{padding:14px 18px;vertical-align:middle}
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-label">AnB Travel Archive</div>
-  <h1>Travel Spots,<br><span>Curated by Us ✈️</span></h1>
-  <p class="hero-desc">우리가 직접 가보고 기록한 여행지들 ✈️<br>나라별 필터로 바로 탐색하세요 !  <span style="opacity:0.4;font-size:12px;">made by zzing</span></p>
+  <h1>AnB Travel Spots,<br><span>Curated by Us ✈️</span></h1>
+  <p class="hero-desc">우리가 직접 가보고 기록한 여행지들 ✈️<br>필터를 활용해 바로 탐색하세요 !  <span style="opacity:0.4;font-size:12px;">made by zzing</span></p>
 </section>
 
 <div class="controls">
-  <span class="chip-label">나라</span>
-  <div class="country-chips" id="chips"></div>
-  <div style="width:1px;height:20px;background:var(--border);margin:0 4px"></div>
-  <span class="chip-label">카테고리</span>
-  <div class="country-chips" id="cat-chips"></div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <span class="chip-label">국가별</span>
+    <div class="country-chips" id="chips"></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px">
+    <span class="chip-label">카테고리별</span>
+    <div class="country-chips" id="cat-chips"></div>
+  </div>
 </div>
 
 <div class="content">
