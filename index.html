@@ -276,7 +276,7 @@ tbody td{padding:13px 18px;vertical-align:middle}
   <div class="section-panel" id="panel-music">
     <div class="card-grid" id="grid-music"></div>
     <div class="table-wrap" id="table-music">
-      <table style="table-layout:fixed;width:100%"><thead><tr><th style="width:160px">곡/앨범</th><th style="width:120px">아티스트</th><th style="width:80px">장르</th><th>한줄평</th><th style="width:60px">평점</th><th style="width:130px">링크</th><th style="width:80px">제보자</th></tr></thead>
+      <table style="table-layout:fixed;width:100%"><thead><tr><th style="width:150px">곡/앨범</th><th style="width:110px">아티스트</th><th style="width:75px">장르</th><th style="width:220px">한줄평</th><th style="width:55px">평점</th><th style="width:130px">링크</th><th style="width:75px">제보자</th></tr></thead>
       <tbody id="tbody-music"></tbody></table>
     </div>
   </div>
@@ -313,7 +313,7 @@ tbody td{padding:13px 18px;vertical-align:middle}
 // 구글 시트 CSV URL — 섹션별로 넣기
 // ══════════════════════════════════════════════
 const SHEET_URLS = {
-travel: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=0&single=true&output=csv",
+  travel: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=0&single=true&output=csv",
   book:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=1883614922&single=true&output=csv",
   movie:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=446413317&single=true&output=csv",
   music:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=236109555&single=true&output=csv",
@@ -612,12 +612,12 @@ function renderMusic(items){
 
   document.getElementById("tbody-music").innerHTML = items.map(d=>`
     <tr>
-      <td style="min-width:140px"><div class="td-name">${d.title}</div><div class="td-sub">${d.mood||""}</div></td>
-      <td style="color:var(--muted2);font-size:12px;min-width:100px;white-space:nowrap">${d.artist}</td>
-      <td style="min-width:70px"><span class="badge music-badge" style="font-size:10px">${d.genre}</span></td>
-      <td class="td-tip" style="min-width:200px">${d.tip}</td>
+      <td style="width:150px;overflow:hidden"><div class="td-name" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.title}</div><div class="td-sub">${d.mood||""}</div></td>
+      <td style="color:var(--muted2);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${d.artist}</td>
+      <td><span class="badge music-badge" style="font-size:10px;white-space:nowrap">${d.genre}</span></td>
+      <td class="td-tip" style="word-break:keep-all;line-height:1.6">${d.tip}</td>
       <td style="font-size:13px;color:var(--gold);white-space:nowrap">${d.rating}★</td>
-      <td style="min-width:120px"><div style="display:flex;gap:5px;flex-wrap:wrap">${d.link?`<a class="lnk" style="background:rgba(255,0,0,.12);border-color:rgba(255,0,0,.25);color:#ff4444;font-size:11px" href="${d.link}" target="_blank">▶ YouTube</a>`:""}${DC_TD(d.discordUrl)}</div></td>
+      <td><div style="display:flex;gap:5px;flex-wrap:wrap">${d.link?`<a class="lnk" style="background:rgba(255,0,0,.12);border-color:rgba(255,0,0,.25);color:#ff4444;font-size:11px" href="${d.link}" target="_blank">▶ YouTube</a>`:""}${DC_TD(d.discordUrl)}</div></td>
       <td style="font-size:11px;color:var(--muted);white-space:nowrap">${d.source}</td>
     </tr>
   `).join("");
@@ -713,18 +713,27 @@ function setView(v){
 
 // ─── CSV 파싱 공통 ───
 function parseCSVRaw(csv){
-  const lines = csv.trim().split("\n").filter(Boolean);
-  if(lines.length < 2) return [];
-  return lines.slice(1).map(line => {
-    const cols = []; let cur = "", inQ = false;
-    for(const ch of line){
-      if(ch === '"'){ inQ = !inQ; continue; }
-      if(ch === ',' && !inQ){ cols.push(cur.trim()); cur = ""; continue; }
+  // \r 제거 후 파싱
+  const text = csv.replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim();
+  const rows = [];
+  let cur = "", inQ = false, cols = [];
+  for(let i = 0; i < text.length; i++){
+    const ch = text[i];
+    if(ch === '"'){
+      if(inQ && text[i+1] === '"'){ cur += '"'; i++; } // escaped quote
+      else inQ = !inQ;
+    } else if(ch === ',' && !inQ){
+      cols.push(cur.trim()); cur = "";
+    } else if(ch === '\n' && !inQ){
+      cols.push(cur.trim()); cur = "";
+      rows.push(cols); cols = [];
+    } else {
       cur += ch;
     }
-    cols.push(cur.trim());
-    return cols;
-  });
+  }
+  cols.push(cur.trim());
+  if(cols.some(c=>c)) rows.push(cols);
+  return rows.slice(1); // 헤더 제거
 }
 
 function parseTravel(csv){
