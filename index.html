@@ -121,7 +121,14 @@ header{position:sticky;top:0;z-index:100;height:58px;background:rgba(8,8,15,0.88
 .star{color:var(--gold);font-size:12px}
 .rating-num{font-size:11px;color:var(--muted2);margin-left:4px}
 
-.book-badge{background:rgba(245,200,66,.1);border-color:rgba(245,200,66,.2);color:var(--gold)}
+.ott-badge{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:6px;white-space:nowrap;font-family:'Pretendard',sans-serif}
+.ott-netflix{background:#E50914;color:#fff}
+.ott-disney{background:#113CCF;color:#fff}
+.ott-watcha{background:#FF0558;color:#fff}
+.ott-wavve{background:#0069FF;color:#fff}
+.ott-appletv{background:#1C1C1E;color:#fff;border:1px solid rgba(255,255,255,.15)}
+.ott-theater{background:rgba(245,200,66,.15);color:var(--gold);border:1px solid rgba(245,200,66,.3)}
+.ott-etc{background:var(--s3);color:var(--muted2);border:1px solid var(--border)}
 .movie-badge{background:rgba(255,107,157,.1);border-color:rgba(255,107,157,.2);color:var(--pink)}
 .music-badge{background:rgba(78,205,196,.1);border-color:rgba(78,205,196,.2);color:var(--teal)}
 .show-badge{background:rgba(255,140,66,.1);border-color:rgba(255,140,66,.2);color:var(--orange)}
@@ -268,7 +275,7 @@ tbody td{padding:13px 18px;vertical-align:middle}
   <div class="section-panel" id="panel-movie">
     <div class="card-grid" id="grid-movie"></div>
     <div class="table-wrap" id="table-movie">
-      <table><thead><tr><th>제목</th><th>감독</th><th>장르</th><th>한줄평</th><th>평점</th><th>링크</th><th>제보자</th></tr></thead>
+      <table><thead><tr><th>제목 / 감독</th><th>장르</th><th>한줄평</th><th>평점</th><th>OTT</th><th>링크</th><th>제보자</th></tr></thead>
       <tbody id="tbody-movie"></tbody></table>
     </div>
   </div>
@@ -351,12 +358,12 @@ const SAMPLE = {
     {title:"어린 왕자",author:"생텍쥐페리",genre:"동화",tag:"고전",tip:"어른이 돼서 읽으면 어릴 때와 전혀 다르게 읽힘. 매년 한 번씩 읽고 싶은 책.",rating:4.9,link:"",discordUrl:"",source:"민준",imageUrl:""},
   ],
   movie: [
-    {title:"파묘",director:"장재현",genre:"오컬트",mood:"스릴",tip:"한국 전통 무속 신앙을 현대적으로 해석. 최민식 연기력이 압도적. 후반부 반전 주의.",rating:4.7,link:"",discordUrl:"",source:"승우",imageUrl:""},
-    {title:"듄: 파트2",director:"드니 빌뇌브",genre:"SF",mood:"장대함",tip:"스케일이 정말 압도적. IMAX로 보는 게 무조건 정답. 한스 짐머 음악도 완벽.",rating:4.8,link:"",discordUrl:"",source:"지훈",imageUrl:""},
-    {title:"올드보이",director:"박찬욱",genre:"스릴러",mood:"충격",tip:"한국 영화 역대급 반전. 정신 차리고 봐야 함. 결말 후 한동안 멍해짐.",rating:4.9,link:"",discordUrl:"",source:"다연",imageUrl:""},
-    {title:"그랜드 부다페스트 호텔",director:"웨스 앤더슨",genre:"코미디",mood:"유쾌함",tip:"비주얼 자체가 예술. 색감과 구도가 너무 아름다움. 기분 좋아지는 영화.",rating:4.6,link:"",discordUrl:"",source:"수아",imageUrl:""},
-    {title:"인터스텔라",director:"크리스토퍼 놀란",genre:"SF",mood:"감동",tip:"우주와 사랑에 대한 이야기. 큰 화면으로 볼수록 좋음. 음악이 정말 압도적.",rating:4.9,link:"",discordUrl:"",source:"태호",imageUrl:""},
-    {title:"콘크리트 유토피아",director:"엄태화",genre:"재난",mood:"사회적",tip:"재난 이후 인간의 이기심을 적나라하게 보여줌. 이병헌 연기 돌아버림.",rating:4.5,link:"",discordUrl:"",source:"하은",imageUrl:""},
+    {title:"파묘",director:"장재현",genre:"오컬트",mood:"스릴",tip:"한국 전통 무속 신앙을 현대적으로 해석. 최민식 연기력이 압도적. 후반부 반전 주의.",rating:4.7,link:"",discordUrl:"",source:"승우",imageUrl:"",ott:"Watcha"},
+    {title:"듄: 파트2",director:"드니 빌뇌브",genre:"SF",mood:"장대함",tip:"스케일이 정말 압도적. IMAX로 보는 게 무조건 정답. 한스 짐머 음악도 완벽.",rating:4.8,link:"",discordUrl:"",source:"지훈",imageUrl:"",ott:"Netflix"},
+    {title:"올드보이",director:"박찬욱",genre:"스릴러",mood:"충격",tip:"한국 영화 역대급 반전. 정신 차리고 봐야 함. 결말 후 한동안 멍해짐.",rating:4.9,link:"",discordUrl:"",source:"다연",imageUrl:"",ott:"Wavve"},
+    {title:"그랜드 부다페스트 호텔",director:"웨스 앤더슨",genre:"코미디",mood:"유쾌함",tip:"비주얼 자체가 예술. 색감과 구도가 너무 아름다움. 기분 좋아지는 영화.",rating:4.6,link:"",discordUrl:"",source:"수아",imageUrl:"",ott:"Disney+"},
+    {title:"인터스텔라",director:"크리스토퍼 놀란",genre:"SF",mood:"감동",tip:"우주와 사랑에 대한 이야기. 큰 화면으로 볼수록 좋음. 음악이 정말 압도적.",rating:4.9,link:"",discordUrl:"",source:"태호",imageUrl:"",ott:"Netflix"},
+    {title:"콘크리트 유토피아",director:"엄태화",genre:"재난",mood:"사회적",tip:"재난 이후 인간의 이기심을 적나라하게 보여줌. 이병헌 연기 돌아버림.",rating:4.5,link:"",discordUrl:"",source:"하은",imageUrl:"",ott:"Watcha"},
   ],
   music: [
     {title:"MOODRING",artist:"aespa",genre:"팝",mood:"에너지",tip:"케이팝 중에서도 독특한 세계관과 사운드. 메타버스 컨셉이 음악으로 완성됨.",rating:4.5,link:"https://www.youtube.com/watch?v=W7EDPm-5l3k",discordUrl:"",source:"지아",imageUrl:""},
@@ -456,7 +463,38 @@ function setSecondary(v){
 }
 
 // ─── Render ───
-// 구글 드라이브 공유 링크 → 직접 이미지 URL 변환
+// OTT 배지
+function ottBadge(ott){
+  if(!ott) return "";
+  const map = {
+    "netflix":     ["ott-netflix",  "N Netflix"],
+    "넷플릭스":    ["ott-netflix",  "N Netflix"],
+    "disney+":     ["ott-disney",   "✦ Disney+"],
+    "disney":      ["ott-disney",   "✦ Disney+"],
+    "디즈니+":     ["ott-disney",   "✦ Disney+"],
+    "디즈니플러스":["ott-disney",   "✦ Disney+"],
+    "watcha":      ["ott-watcha",   "● Watcha"],
+    "왓챠":        ["ott-watcha",   "● Watcha"],
+    "wavve":       ["ott-wavve",    "▶ Wavve"],
+    "웨이브":      ["ott-wavve",    "▶ Wavve"],
+    "apple tv+":   ["ott-appletv",  " Apple TV+"],
+    "appletv":     ["ott-appletv",  " Apple TV+"],
+    "애플티비":    ["ott-appletv",  " Apple TV+"],
+    "극장":        ["ott-theater",  "🎬 극장"],
+    "theater":     ["ott-theater",  "🎬 극장"],
+  };
+  return ott.split(",").map(o => {
+    const key = o.trim().toLowerCase();
+    const [cls, label] = map[key] || ["ott-etc", o.trim()];
+    return `<span class="ott-badge ${cls}">${label}</span>`;
+  }).join(" ");
+}
+
+// OTT 필터용 목록
+function ottBadgeSmall(ott){
+  if(!ott) return "";
+  return ottBadge(ott).replace('class="ott-badge', 'class="ott-badge" style="font-size:10px;padding:2px 7px;');
+}
 function toDirectImg(url){
   if(!url) return "";
   const m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
@@ -553,16 +591,19 @@ function renderMovie(items){
     <div class="card" style="animation-delay:${Math.min(i*30,360)}ms">
       <div class="card-glow-bar"></div>
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
-        <div>
-          <span class="badge movie-badge" style="margin-bottom:8px">${d.genre}</span>
-          ${d.mood?`<span class="badge" style="margin-left:5px;background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:var(--muted2)">${d.mood}</span>`:""}
+        <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center">
+          <span class="badge movie-badge">${d.genre}</span>
+          ${d.mood?`<span class="badge" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:var(--muted2)">${d.mood}</span>`:""}
         </div>
         <div style="font-size:26px">🎬</div>
       </div>
       <div class="card-name">${d.title}</div>
       <div class="card-sub" style="margin-bottom:10px">감독 ${d.director}</div>
-      ${stars(d.rating)}
-      <div class="card-tip" style="margin-top:10px">💬 ${d.tip}</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        ${stars(d.rating)}
+        ${ottBadge(d.ott)}
+      </div>
+      <div class="card-tip">💬 ${d.tip}</div>
       <div class="card-footer">
         <div class="card-from">from <b>${d.source}</b></div>
         <div class="card-links">
@@ -575,11 +616,11 @@ function renderMovie(items){
 
   document.getElementById("tbody-movie").innerHTML = items.map(d=>`
     <tr>
-      <td><div class="td-name">${d.title}</div></td>
-      <td style="color:var(--muted2);font-size:12px">${d.director}</td>
+      <td><div class="td-name">${d.title}</div><div class="td-sub">${d.director}</div></td>
       <td><span class="badge movie-badge" style="font-size:10px">${d.genre}</span></td>
       <td class="td-tip">${d.tip}</td>
       <td style="font-size:13px;color:var(--gold);white-space:nowrap">${d.rating}★</td>
+      <td>${ottBadgeSmall(d.ott)}</td>
       <td style="display:flex;gap:5px">${d.link?`<a class="lnk lnk-primary" href="${d.link}" target="_blank" style="font-size:11px">🔗 링크</a>`:""}${DC_TD(d.discordUrl)}</td>
       <td style="font-size:11px;color:var(--muted)">${d.source}</td>
     </tr>
@@ -756,6 +797,7 @@ function parseMovie(csv){
     title:      c[0]||"", director:   c[1]||"", genre:      c[2]||"",
     mood:       c[3]||"", tip:        c[4]||"", rating:     parseFloat(c[5])||0,
     link:       c[6]||"", discordUrl: c[7]||"", source:     c[8]||"",
+    ott:        c[9]||"",
   })).filter(d => d.title);
 }
 function parseMusic(csv){
