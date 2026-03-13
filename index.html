@@ -276,7 +276,7 @@ tbody td{padding:13px 18px;vertical-align:middle}
   <div class="section-panel" id="panel-music">
     <div class="card-grid" id="grid-music"></div>
     <div class="table-wrap" id="table-music">
-      <table><thead><tr><th>곡/앨범</th><th>아티스트</th><th>장르</th><th>한줄평</th><th>평점</th><th>링크</th><th>제보자</th></tr></thead>
+      <table style="table-layout:fixed;width:100%"><thead><tr><th style="width:160px">곡/앨범</th><th style="width:120px">아티스트</th><th style="width:80px">장르</th><th>한줄평</th><th style="width:60px">평점</th><th style="width:130px">링크</th><th style="width:80px">제보자</th></tr></thead>
       <tbody id="tbody-music"></tbody></table>
     </div>
   </div>
@@ -313,11 +313,11 @@ tbody td{padding:13px 18px;vertical-align:middle}
 // 구글 시트 CSV URL — 섹션별로 넣기
 // ══════════════════════════════════════════════
 const SHEET_URLS = {
-travel: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=0&single=true&output=csv",
-  book:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=1883614922&single=true&output=csv",
-  movie:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=446413317&single=true&output=csv",
-  music:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=236109555&single=true&output=csv",
-  show:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=1111433069&single=true&output=csv",
+  travel: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?output=csv",
+  book:   "",
+  movie:  "",
+  music:  "",
+  show:   "",
 };
 
 // ─── 섹션 메타 ───
@@ -376,96 +376,8 @@ const SAMPLE = {
 };
 
 // ─── 국기 맵 ───
-const FLAG_MAP={
-  // 아시아
-  "Japan":"🇯🇵","일본":"🇯🇵",
-  "Korea":"🇰🇷","South Korea":"🇰🇷","한국":"🇰🇷",
-  "China":"🇨🇳","중국":"🇨🇳",
-  "Taiwan":"🇹🇼","대만":"🇹🇼",
-  "Hong Kong":"🇭🇰","홍콩":"🇭🇰",
-  "Thailand":"🇹🇭","태국":"🇹🇭",
-  "Vietnam":"🇻🇳","베트남":"🇻🇳",
-  "Singapore":"🇸🇬","싱가포르":"🇸🇬",
-  "Indonesia":"🇮🇩","인도네시아":"🇮🇩",
-  "Philippines":"🇵🇭","필리핀":"🇵🇭",
-  "Malaysia":"🇲🇾","말레이시아":"🇲🇾",
-  "India":"🇮🇳","인도":"🇮🇳",
-  "Nepal":"🇳🇵","네팔":"🇳🇵",
-  "Cambodia":"🇰🇭","캄보디아":"🇰🇭",
-  "Myanmar":"🇲🇲","미얀마":"🇲🇲",
-  "Laos":"🇱🇦","라오스":"🇱🇦",
-  "Bangladesh":"🇧🇩","방글라데시":"🇧🇩",
-  "Sri Lanka":"🇱🇰","스리랑카":"🇱🇰",
-  "Mongolia":"🇲🇳","몽골":"🇲🇳",
-  "Kazakhstan":"🇰🇿","카자흐스탄":"🇰🇿",
-  "Uzbekistan":"🇺🇿","우즈베키스탄":"🇺🇿",
-  // 중동
-  "UAE":"🇦🇪","두바이":"🇦🇪",
-  "Jordan":"🇯🇴","요르단":"🇯🇴",
-  "Israel":"🇮🇱","이스라엘":"🇮🇱",
-  "Saudi Arabia":"🇸🇦","사우디아라비아":"🇸🇦",
-  "Qatar":"🇶🇦","카타르":"🇶🇦",
-  "Oman":"🇴🇲","오만":"🇴🇲",
-  "Georgia":"🇬🇪","조지아":"🇬🇪",
-  "Armenia":"🇦🇲","아르메니아":"🇦🇲",
-  "Azerbaijan":"🇦🇿","아제르바이잔":"🇦🇿",
-  // 유럽
-  "UK":"🇬🇧","United Kingdom":"🇬🇧","영국":"🇬🇧",
-  "France":"🇫🇷","프랑스":"🇫🇷",
-  "Germany":"🇩🇪","독일":"🇩🇪",
-  "Italy":"🇮🇹","이탈리아":"🇮🇹",
-  "Spain":"🇪🇸","스페인":"🇪🇸",
-  "Portugal":"🇵🇹","포르투갈":"🇵🇹",
-  "Netherlands":"🇳🇱","네덜란드":"🇳🇱",
-  "Belgium":"🇧🇪","벨기에":"🇧🇪",
-  "Switzerland":"🇨🇭","스위스":"🇨🇭",
-  "Austria":"🇦🇹","오스트리아":"🇦🇹",
-  "Greece":"🇬🇷","그리스":"🇬🇷",
-  "Turkey":"🇹🇷","Turkiye":"🇹🇷","튀르키예":"🇹🇷","터키":"🇹🇷",
-  "Croatia":"🇭🇷","크로아티아":"🇭🇷",
-  "Czech":"🇨🇿","체코":"🇨🇿",
-  "Hungary":"🇭🇺","헝가리":"🇭🇺",
-  "Poland":"🇵🇱","폴란드":"🇵🇱",
-  "Romania":"🇷🇴","루마니아":"🇷🇴",
-  "Sweden":"🇸🇪","스웨덴":"🇸🇪",
-  "Norway":"🇳🇴","노르웨이":"🇳🇴",
-  "Denmark":"🇩🇰","덴마크":"🇩🇰",
-  "Finland":"🇫🇮","핀란드":"🇫🇮",
-  "Iceland":"🇮🇸","아이슬란드":"🇮🇸",
-  "Ireland":"🇮🇪","아일랜드":"🇮🇪",
-  "Slovakia":"🇸🇰","슬로바키아":"🇸🇰",
-  "Slovenia":"🇸🇮","슬로베니아":"🇸🇮",
-  "Serbia":"🇷🇸","세르비아":"🇷🇸",
-  "Bulgaria":"🇧🇬","불가리아":"🇧🇬",
-  "Ukraine":"🇺🇦","우크라이나":"🇺🇦",
-  "Russia":"🇷🇺","러시아":"🇷🇺",
-  "Luxembourg":"🇱🇺","룩셈부르크":"🇱🇺",
-  "Malta":"🇲🇹","몰타":"🇲🇹",
-  "Monaco":"🇲🇨","모나코":"🇲🇨",
-  // 아메리카
-  "USA":"🇺🇸","United States":"🇺🇸","미국":"🇺🇸",
-  "Canada":"🇨🇦","캐나다":"🇨🇦",
-  "Mexico":"🇲🇽","멕시코":"🇲🇽",
-  "Brazil":"🇧🇷","브라질":"🇧🇷",
-  "Argentina":"🇦🇷","아르헨티나":"🇦🇷",
-  "Peru":"🇵🇪","페루":"🇵🇪",
-  "Chile":"🇨🇱","칠레":"🇨🇱",
-  "Colombia":"🇨🇴","콜롬비아":"🇨🇴",
-  "Cuba":"🇨🇺","쿠바":"🇨🇺",
-  "Costa Rica":"🇨🇷","코스타리카":"🇨🇷",
-  // 아프리카
-  "Egypt":"🇪🇬","이집트":"🇪🇬",
-  "Morocco":"🇲🇦","모로코":"🇲🇦",
-  "South Africa":"🇿🇦","남아공":"🇿🇦","남아프리카":"🇿🇦",
-  "Kenya":"🇰🇪","케냐":"🇰🇪",
-  "Tanzania":"🇹🇿","탄자니아":"🇹🇿",
-  "Ethiopia":"🇪🇹","에티오피아":"🇪🇹",
-  "Tunisia":"🇹🇳","튀니지":"🇹🇳",
-  // 오세아니아
-  "Australia":"🇦🇺","호주":"🇦🇺",
-  "New Zealand":"🇳🇿","뉴질랜드":"🇳🇿",
-  "Fiji":"🇫🇯","피지":"🇫🇯",
-};
+const FLAG_MAP={"Japan":"🇯🇵","Korea":"🇰🇷","South Korea":"🇰🇷","한국":"🇰🇷","일본":"🇯🇵","China":"🇨🇳","중국":"🇨🇳","Taiwan":"🇹🇼","대만":"🇹🇼","Hong Kong":"🇭🇰","홍콩":"🇭🇰","Thailand":"🇹🇭","태국":"🇹🇭","Vietnam":"🇻🇳","베트남":"🇻🇳","Singapore":"🇸🇬","싱가포르":"🇸🇬","Indonesia":"🇮🇩","Philippines":"🇵🇭","Malaysia":"🇲🇾","India":"🇮🇳","USA":"🇺🇸","United States":"🇺🇸","미국":"🇺🇸","Canada":"🇨🇦","캐나다":"🇨🇦","Mexico":"🇲🇽","Brazil":"🇧🇷","UK":"🇬🇧","United Kingdom":"🇬🇧","영국":"🇬🇧","France":"🇫🇷","프랑스":"🇫🇷","Germany":"🇩🇪","독일":"🇩🇪","Italy":"🇮🇹","이탈리아":"🇮🇹","Spain":"🇪🇸","스페인":"🇪🇸","Portugal":"🇵🇹","포르투갈":"🇵🇹","Netherlands":"🇳🇱","Switzerland":"🇨🇭","스위스":"🇨🇭","Austria":"🇦🇹","Greece":"🇬🇷","그리스":"🇬🇷","Turkey":"🇹🇷","Turkiye":"🇹🇷","튀르키예":"🇹🇷","Croatia":"🇭🇷","Czech":"🇨🇿","체코":"🇨🇿","Sweden":"🇸🇪","Norway":"🇳🇴","Denmark":"🇩🇰","Iceland":"🇮🇸","아이슬란드":"🇮🇸","Egypt":"🇪🇬","이집트":"🇪🇬","Morocco":"🇲🇦","모로코":"🇲🇦","Australia":"🇦🇺","호주":"🇦🇺","New Zealand":"🇳🇿","UAE":"🇦🇪","두바이":"🇦🇪","Georgia":"🇬🇪","조지아":"🇬🇪"};
+function getFlag(c){return FLAG_MAP[c]??"🌍"}
 
 // ─── 상태 ───
 let activeSection = "travel";
@@ -700,13 +612,13 @@ function renderMusic(items){
 
   document.getElementById("tbody-music").innerHTML = items.map(d=>`
     <tr>
-      <td><div class="td-name">${d.title}</div></td>
-      <td style="color:var(--muted2);font-size:12px">${d.artist}</td>
-      <td><span class="badge music-badge" style="font-size:10px">${d.genre}</span></td>
-      <td class="td-tip">${d.tip}</td>
+      <td style="min-width:140px"><div class="td-name">${d.title}</div><div class="td-sub">${d.mood||""}</div></td>
+      <td style="color:var(--muted2);font-size:12px;min-width:100px;white-space:nowrap">${d.artist}</td>
+      <td style="min-width:70px"><span class="badge music-badge" style="font-size:10px">${d.genre}</span></td>
+      <td class="td-tip" style="min-width:200px">${d.tip}</td>
       <td style="font-size:13px;color:var(--gold);white-space:nowrap">${d.rating}★</td>
-      <td style="display:flex;gap:5px">${d.link?`<a class="lnk" style="background:rgba(255,0,0,.12);border-color:rgba(255,0,0,.25);color:#ff4444;font-size:11px" href="${d.link}" target="_blank">▶ YouTube</a>`:""}${DC_TD(d.discordUrl)}</td>
-      <td style="font-size:11px;color:var(--muted)">${d.source}</td>
+      <td style="min-width:120px"><div style="display:flex;gap:5px;flex-wrap:wrap">${d.link?`<a class="lnk" style="background:rgba(255,0,0,.12);border-color:rgba(255,0,0,.25);color:#ff4444;font-size:11px" href="${d.link}" target="_blank">▶ YouTube</a>`:""}${DC_TD(d.discordUrl)}</div></td>
+      <td style="font-size:11px;color:var(--muted);white-space:nowrap">${d.source}</td>
     </tr>
   `).join("");
 }
@@ -854,17 +766,29 @@ function parseShow(csv){
 
 const PARSERS = { travel: parseTravel, book: parseBook, movie: parseMovie, music: parseMusic, show: parseShow };
 
+// CORS 우회용 프록시
+function proxyUrl(url){
+  return `https://corsproxy.io/?${encodeURIComponent(url)}`;
+}
+
 // ─── Load ───
 async function loadData(){
   DATA = {...SAMPLE};
 
-  // 시트 URL 있는 섹션만 fetch
   await Promise.all(
     Object.entries(SHEET_URLS).map(async ([sec, url]) => {
       if(!url) return;
       try {
-        const res  = await fetch(url);
-        const text = await res.text();
+        // 직접 fetch 먼저 시도, 실패하면 프록시 사용
+        let text;
+        try {
+          const res = await fetch(url);
+          if(!res.ok) throw new Error("direct failed");
+          text = await res.text();
+        } catch(e) {
+          const res = await fetch(proxyUrl(url));
+          text = await res.text();
+        }
         const parsed = PARSERS[sec](text);
         if(parsed.length) DATA[sec] = parsed;
       } catch(e){ console.warn(`[${sec}] 시트 로드 실패`, e); }
