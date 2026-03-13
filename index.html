@@ -186,6 +186,7 @@ tbody td{padding:13px 18px;vertical-align:middle}
     AnB Archive
   </div>
   <div class="header-right">
+    <span style="font-size:10px;color:rgba(255,255,255,0.18);letter-spacing:1px;font-family:'Pretendard',sans-serif">made by zzing</span>
     <span class="count-badge" id="total-count"></span>
     <div class="view-toggle">
       <button class="vbtn on" id="btn-card" onclick="setView('card')">
@@ -230,7 +231,6 @@ tbody td{padding:13px 18px;vertical-align:middle}
     <span class="hero-tag" id="hero-tag">TRAVEL ARCHIVE</span>
   </div>
   <h1 id="hero-title">AnB Travel Spots,<br><span class="hl" id="hero-hl">Curated by Us ✈️</span></h1>
-  <p class="hero-desc" id="hero-desc">우리가 직접 가보고 기록한 여행지들 ✈️<br>필터로 바로 탐색하세요!</p>
 </section>
 
 <!-- FILTERS -->
@@ -313,20 +313,20 @@ tbody td{padding:13px 18px;vertical-align:middle}
 // 구글 시트 CSV URL — 섹션별로 넣기
 // ══════════════════════════════════════════════
 const SHEET_URLS = {
-  travel: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=0&single=true&output=csv",
-  book:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=1883614922&single=true&output=csv",
-  movie:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=446413317&single=true&output=csv",
-  music:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=236109555&single=true&output=csv",
-  show:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?gid=1111433069&single=true&output=csv",
+  travel: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQTcgMoJuQcfoEpKbBY8u2ih1M-yBnrv6B_DbhmTRnr6CNUcnNPlEIOAYtVKQwtwi2IyAUsssxOPvD4/pub?output=csv",
+  book:   "",
+  movie:  "",
+  music:  "",
+  show:   "",
 };
 
 // ─── 섹션 메타 ───
 const SECTIONS = {
-  travel:{ accent:"#6c63ff", glow:"rgba(108,99,255,0.18)", tag:"TRAVEL ARCHIVE",   title:"AnB Travel Spots,",    hl:"Curated by Us ✈️",    desc:"우리가 직접 가보고 기록한 여행지들 ✈️<br>필터로 바로 탐색하세요!", emptyIcon:"🧭", filter1:"국가별", filter2:"카테고리" },
-  book:  { accent:"#f5c842", glow:"rgba(245,200,66,0.15)",  tag:"BOOK ARCHIVE",     title:"AnB Book Picks,",      hl:"우리의 책장 📚",        desc:"AnB 멤버들이 읽고 추천하는 책들을 모았어요.<br>장르별로 필터해보세요!", emptyIcon:"📖", filter1:"장르", filter2:"태그" },
-  movie: { accent:"#ff6b9d", glow:"rgba(255,107,157,0.15)", tag:"MOVIE ARCHIVE",    title:"AnB Movie Picks,",     hl:"우리의 시네마 🎬",       desc:"AnB가 인증한 영화들을 모아봤어요.<br>취향 저격 필터 사용해보세요!", emptyIcon:"🎬", filter1:"장르", filter2:"분위기" },
-  music: { accent:"#4ecdc4", glow:"rgba(78,205,196,0.15)",  tag:"MUSIC ARCHIVE",    title:"AnB Music Picks,",     hl:"우리의 플레이리스트 🎵", desc:"AnB 멤버들의 추천 음악들을 모았어요.<br>바이브 별로 골라보세요!", emptyIcon:"🎵", filter1:"장르", filter2:"분위기" },
-  show:  { accent:"#ff8c42", glow:"rgba(255,140,66,0.15)",  tag:"SHOW ARCHIVE",     title:"AnB Show Picks,",      hl:"우리가 본 공연들 🎭",    desc:"AnB가 직접 가본 공연 & 전시 기록이에요.<br>장르별로 탐색하세요!", emptyIcon:"🎭", filter1:"장르", filter2:"도시" },
+  travel:{ accent:"#6c63ff", glow:"rgba(108,99,255,0.18)", tag:"TRAVEL ARCHIVE",   title:"AnB Travel Spots,",    hl:"Curated by Us ✈️",    emptyIcon:"🧭", filter1:"국가", filter2:"카테고리" },
+  book:  { accent:"#f5c842", glow:"rgba(245,200,66,0.15)",  tag:"BOOK ARCHIVE",     title:"AnB Book Picks,",      hl:"우리의 책장 📚",        emptyIcon:"📖", filter1:"장르",   filter2:"태그"    },
+  movie: { accent:"#ff6b9d", glow:"rgba(255,107,157,0.15)", tag:"MOVIE ARCHIVE",    title:"AnB Movie Picks,",     hl:"우리의 시네마 🎬",       emptyIcon:"🎬", filter1:"장르",   filter2:"분위기"  },
+  music: { accent:"#4ecdc4", glow:"rgba(78,205,196,0.15)",  tag:"MUSIC ARCHIVE",    title:"AnB Music Picks,",     hl:"우리의 플레이리스트 🎵", emptyIcon:"🎵", filter1:"장르",   filter2:"분위기"  },
+  show:  { accent:"#ff8c42", glow:"rgba(255,140,66,0.15)",  tag:"SHOW ARCHIVE",     title:"AnB Show Picks,",      hl:"우리가 본 공연들 🎭",    emptyIcon:"🎭", filter1:"장르",   filter2:"도시"    },
 };
 
 // ─── 샘플 데이터 ───
@@ -406,7 +406,6 @@ function setSection(sec){
   document.getElementById("hero-tag").textContent = s.tag;
   document.getElementById("hero-title").childNodes[0].textContent = s.title + "\n";
   document.getElementById("hero-hl").innerHTML = s.hl;
-  document.getElementById("hero-desc").innerHTML = s.desc;
   document.getElementById("filter-label-1").textContent = s.filter1;
   document.getElementById("filter-label-2").textContent = s.filter2;
 
@@ -457,6 +456,14 @@ function setSecondary(v){
 }
 
 // ─── Render ───
+// 구글 드라이브 공유 링크 → 직접 이미지 URL 변환
+function toDirectImg(url){
+  if(!url) return "";
+  const m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if(m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w600`;
+  return url;
+}
+
 function stars(r){
   const full=Math.floor(r), half=(r-full)>=0.5;
   let s="";
@@ -470,7 +477,7 @@ function renderTravel(items){
       <div class="card-glow-bar"></div>
       <div class="card-head">
         <div class="card-flag">${d.flag||getFlag(d.country)}</div>
-        ${d.imageUrl?`<img class="card-thumb" src="${d.imageUrl}" alt="${d.place}" loading="lazy" onclick="openLb('${d.imageUrl}','${d.place.replace(/'/g,"\\'")}','${d.city} · ${d.country}')" onerror="this.style.display='none'">`:""}
+        ${d.imageUrl?`<img class="card-thumb" src="${toDirectImg(d.imageUrl)}" alt="${d.place}" loading="lazy" onclick="openLb('${toDirectImg(d.imageUrl)}','${d.place.replace(/'/g,"\\'")}','${d.city} · ${d.country}')" onerror="this.style.display='none'">`:""}
       </div>
       <div class="card-country-label">${d.country}</div>
       <div class="card-name">${d.place}</div>
