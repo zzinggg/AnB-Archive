@@ -275,7 +275,7 @@ tbody td{padding:13px 18px;vertical-align:middle}
   <div class="section-panel" id="panel-movie">
     <div class="card-grid" id="grid-movie"></div>
     <div class="table-wrap" id="table-movie">
-      <table><thead><tr><th>제목 / 감독</th><th>장르</th><th>한줄평</th><th>평점</th><th>OTT</th><th>링크</th><th>제보자</th></tr></thead>
+      <table style="table-layout:fixed;width:100%"><thead><tr><th style="width:140px">제목 / 감독</th><th style="width:65px">장르</th><th>한줄평</th><th style="width:50px">평점</th><th style="width:150px">OTT</th><th style="width:120px">링크</th><th style="width:70px">제보자</th></tr></thead>
       <tbody id="tbody-movie"></tbody></table>
     </div>
   </div>
@@ -616,13 +616,13 @@ function renderMovie(items){
 
   document.getElementById("tbody-movie").innerHTML = items.map(d=>`
     <tr>
-      <td><div class="td-name">${d.title}</div><div class="td-sub">${d.director}</div></td>
-      <td><span class="badge movie-badge" style="font-size:10px">${d.genre}</span></td>
-      <td class="td-tip">${d.tip}</td>
-      <td style="font-size:13px;color:var(--gold);white-space:nowrap">${d.rating}★</td>
-      <td>${ottBadgeSmall(d.ott)}</td>
-      <td style="display:flex;gap:5px">${d.link?`<a class="lnk lnk-primary" href="${d.link}" target="_blank" style="font-size:11px">🔗 링크</a>`:""}${DC_TD(d.discordUrl)}</td>
-      <td style="font-size:11px;color:var(--muted)">${d.source}</td>
+      <td style="overflow:hidden"><div class="td-name" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.title}</div><div class="td-sub">${d.director}</div></td>
+      <td><span class="badge movie-badge" style="font-size:10px;white-space:nowrap">${d.genre}</span></td>
+      <td class="td-tip" style="word-break:keep-all;line-height:1.6">${d.tip}</td>
+      <td style="font-size:13px;color:var(--gold);white-space:nowrap;text-align:center">${d.rating}★</td>
+      <td style="padding:10px 12px"><div style="display:flex;flex-wrap:wrap;gap:4px">${ottBadge(d.ott)}</div></td>
+      <td><div style="display:flex;gap:5px;flex-wrap:wrap">${d.link?`<a class="lnk lnk-primary" href="${d.link}" target="_blank" style="font-size:11px">🔗 링크</a>`:""}${DC_TD(d.discordUrl)}</div></td>
+      <td style="font-size:11px;color:var(--muted);white-space:nowrap">${d.source}</td>
     </tr>
   `).join("");
 }
