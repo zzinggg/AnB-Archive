@@ -655,9 +655,9 @@ function renderMovie(items){
     <tr class="tr-movie">
       <td class="td-title"><div class="td-name">${d.title}</div><div class="td-sub">감독 ${d.director}</div></td>
       <td class="td-sm" data-label="장르"><span class="badge movie-badge" style="font-size:10px">${d.genre}</span></td>
-      <td class="td-sm" data-label="평점" style="font-size:13px;color:var(--gold)">${d.rating}★</td>
-      ${d.ott?`<td class="td-full" data-label="OTT"><div style="display:flex;flex-wrap:wrap;gap:4px">${ottBadge(d.ott)}</div></td>`:""}
       <td class="td-full td-tip" data-label="한줄평">${d.tip}</td>
+      <td class="td-sm" data-label="평점" style="font-size:13px;color:var(--gold);text-align:center">${d.rating}★</td>
+      <td data-label="OTT" style="vertical-align:middle"><div style="display:flex;flex-wrap:wrap;gap:4px">${ottBadge(d.ott)}</div></td>
       <td class="td-links">${d.link?`<a class="lnk lnk-primary" href="${d.link}" target="_blank" style="font-size:11px">🔗 링크</a>`:""}${DC_TD(d.discordUrl)}</td>
       <td class="td-sm" data-label="제보자" style="font-size:11px;color:var(--muted)">${d.source}</td>
     </tr>
