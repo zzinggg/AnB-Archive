@@ -181,6 +181,42 @@ tbody td{padding:13px 18px;vertical-align:middle}
   .hero{padding-top:40px;padding-bottom:30px}
   .card-grid{grid-template-columns:1fr}
   .snav-btn{padding:16px 14px 14px}
+
+  /* 모바일 테이블 → 리스트형 변환 */
+  .table-wrap{border:none;background:transparent;overflow-x:visible}
+  table{display:block}
+  thead{display:none}
+  tbody{display:flex;flex-direction:column;gap:10px}
+  tbody tr{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:4px 10px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:14px;
+    background:var(--s1);
+    border-bottom:1px solid var(--border) !important;
+  }
+  tbody tr:hover{background:var(--s2)}
+  tbody td{
+    padding:2px 0;
+    border:none;
+    font-size:12px;
+    vertical-align:top;
+    white-space:normal !important;
+    overflow:visible !important;
+    text-overflow:unset !important;
+    width:auto !important;
+    min-width:0 !important;
+    max-width:none !important;
+  }
+  /* 제목 칸 — 전체 너비 */
+  tbody td:first-child{grid-column:1/-1}
+  .td-name{font-size:14px}
+  /* 한줄평 칸 — 전체 너비 */
+  .td-tip{grid-column:1/-1;max-width:none}
+  /* OTT 배지 줄바꿈 허용 */
+  .ott-badge{font-size:10px;padding:2px 7px}
 }
 </style>
 </head>
