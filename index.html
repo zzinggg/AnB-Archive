@@ -150,6 +150,7 @@ tbody td{padding:13px 18px;vertical-align:middle}
 .td-name{font-weight:700;color:#fff;font-size:14px}
 .td-sub{font-size:11px;color:var(--muted);margin-top:2px}
 .td-tip{max-width:260px;color:var(--muted2);line-height:1.5;font-size:12px}
+.td-src{font-size:11px;color:var(--muted)}
 
 /* ─── EMPTY / LOADING ─── */
 .empty{text-align:center;padding:80px 20px;color:var(--muted);display:none}
@@ -188,9 +189,9 @@ tbody td{padding:13px 18px;vertical-align:middle}
   thead{display:none}
   tbody{display:flex;flex-direction:column;gap:10px}
   tbody tr{
-    display:flex;flex-wrap:wrap;gap:4px 10px;
+    display:flex;flex-wrap:wrap;align-items:center;gap:5px 8px;
     border:1px solid var(--border);border-radius:14px;
-    padding:14px 14px 10px;background:var(--s1);
+    padding:14px;background:var(--s1);
     border-bottom:1px solid var(--border) !important;
   }
   tbody tr:hover{background:var(--s2)}
@@ -199,24 +200,16 @@ tbody td{padding:13px 18px;vertical-align:middle}
     white-space:normal !important;overflow:visible !important;
     text-overflow:unset !important;width:auto !important;
     min-width:0 !important;max-width:none !important;
-    display:flex;flex-direction:column;justify-content:center;
   }
-  tbody td::before{
-    content:attr(data-label);
-    font-size:9px;letter-spacing:1.5px;color:var(--muted);
-    font-family:'Bebas Neue',sans-serif;margin-bottom:2px;
-    text-transform:uppercase;
-  }
-  /* 제목 칸 — 전체 너비, 라벨 없음 */
-  tbody td.td-title{width:100%;flex-direction:column}
-  tbody td.td-title::before{display:none}
+  tbody td::before{display:none}
+  /* 제목 — 전체 너비 */
+  tbody td.td-title{width:100%}
   /* 한줄평 — 전체 너비 */
-  tbody td.td-full{width:100%}
-  /* 좁은 칸들 — 자동 */
-  tbody td.td-sm{width:auto;flex-shrink:0}
-  /* 링크 칸 */
-  tbody td.td-links{width:auto;flex-direction:row;align-items:center;gap:5px;flex-wrap:wrap}
-  tbody td.td-links::before{display:none}
+  tbody td.td-full{width:100%;margin:2px 0;color:var(--muted2);line-height:1.6;font-size:12px}
+  /* 링크 버튼 */
+  tbody td.td-links{display:flex;gap:5px;flex-wrap:wrap}
+  /* 제보자 — 오른쪽 정렬 */
+  tbody td.td-src{margin-left:auto;font-size:10px;color:var(--muted)}
   .td-name{font-size:14px}
   .td-tip{max-width:none;-webkit-line-clamp:unset}
   .ott-badge{font-size:10px;padding:2px 7px}
@@ -298,7 +291,7 @@ tbody td{padding:13px 18px;vertical-align:middle}
   <div class="section-panel on" id="panel-travel">
     <div class="card-grid" id="grid-travel"></div>
     <div class="table-wrap" id="table-travel">
-      <table><thead><tr><th></th><th>나라</th><th>장소</th><th>카테고리</th><th>팁</th><th>링크</th><th>제보자</th></tr></thead>
+      <table style="table-layout:fixed;width:100%"><thead><tr><th style="width:180px">장소</th><th style="width:130px">카테고리</th><th>팁</th><th style="width:120px">링크</th><th style="width:70px">제보자</th></tr></thead>
       <tbody id="tbody-travel"></tbody></table>
     </div>
   </div>
@@ -306,7 +299,7 @@ tbody td{padding:13px 18px;vertical-align:middle}
   <div class="section-panel" id="panel-book">
     <div class="card-grid" id="grid-book"></div>
     <div class="table-wrap" id="table-book">
-      <table><thead><tr><th>책 제목</th><th>저자</th><th>장르</th><th>한줄평</th><th>평점</th><th>링크</th><th>제보자</th></tr></thead>
+      <table style="table-layout:fixed;width:100%"><thead><tr><th style="width:160px">제목 / 저자</th><th style="width:150px">장르 · 평점</th><th>한줄평</th><th style="width:120px">링크</th><th style="width:70px">제보자</th></tr></thead>
       <tbody id="tbody-book"></tbody></table>
     </div>
   </div>
@@ -314,7 +307,7 @@ tbody td{padding:13px 18px;vertical-align:middle}
   <div class="section-panel" id="panel-movie">
     <div class="card-grid" id="grid-movie"></div>
     <div class="table-wrap" id="table-movie">
-      <table style="table-layout:fixed;width:100%"><thead><tr><th style="width:140px">제목 / 감독</th><th style="width:65px">장르</th><th>한줄평</th><th style="width:50px">평점</th><th style="width:150px">OTT</th><th style="width:120px">링크</th><th style="width:70px">제보자</th></tr></thead>
+      <table style="table-layout:fixed;width:100%"><thead><tr><th style="width:140px">제목 / 감독</th><th style="width:210px">장르 · 평점 · OTT</th><th>한줄평</th><th style="width:120px">링크</th><th style="width:70px">제보자</th></tr></thead>
       <tbody id="tbody-movie"></tbody></table>
     </div>
   </div>
@@ -322,7 +315,7 @@ tbody td{padding:13px 18px;vertical-align:middle}
   <div class="section-panel" id="panel-music">
     <div class="card-grid" id="grid-music"></div>
     <div class="table-wrap" id="table-music">
-      <table style="table-layout:fixed;width:100%"><thead><tr><th style="width:150px">곡/앨범</th><th style="width:110px">아티스트</th><th style="width:75px">장르</th><th style="width:220px">한줄평</th><th style="width:55px">평점</th><th style="width:130px">링크</th><th style="width:75px">제보자</th></tr></thead>
+      <table style="table-layout:fixed;width:100%"><thead><tr><th style="width:160px">곡/앨범 · 아티스트</th><th style="width:150px">장르 · 평점</th><th>한줄평</th><th style="width:120px">링크</th><th style="width:70px">제보자</th></tr></thead>
       <tbody id="tbody-music"></tbody></table>
     </div>
   </div>
@@ -330,7 +323,7 @@ tbody td{padding:13px 18px;vertical-align:middle}
   <div class="section-panel" id="panel-show">
     <div class="card-grid" id="grid-show"></div>
     <div class="table-wrap" id="table-show">
-      <table><thead><tr><th>공연명</th><th>장소</th><th>장르</th><th>한줄평</th><th>평점</th><th>링크</th><th>제보자</th></tr></thead>
+      <table style="table-layout:fixed;width:100%"><thead><tr><th style="width:160px">공연명 · 장소</th><th style="width:150px">장르 · 평점</th><th>한줄평</th><th style="width:120px">링크</th><th style="width:70px">제보자</th></tr></thead>
       <tbody id="tbody-show"></tbody></table>
     </div>
   </div>
@@ -575,10 +568,10 @@ function renderTravel(items){
   document.getElementById("tbody-travel").innerHTML = items.map(d=>`
     <tr>
       <td class="td-title"><div class="td-name">${d.flag||getFlag(d.country)} ${d.place}</div><div class="td-sub">📍 ${d.city} · ${d.country}</div></td>
-      <td class="td-sm" data-label="카테고리"><span class="badge" style="font-size:10px">${d.category}</span></td>
-      <td class="td-full td-tip" data-label="팁">${d.tip}</td>
+      <td class="td-sm"><span class="badge" style="font-size:10px">${d.category}</span></td>
+      <td class="td-full td-tip">${d.tip}</td>
       <td class="td-links">${d.mapUrl?`<a class="lnk lnk-map" href="${d.mapUrl}" target="_blank" style="font-size:11px">🗺 지도</a>`:""}${DC_TD(d.discordUrl)}</td>
-      <td class="td-sm" data-label="제보자" style="font-size:11px;color:var(--muted)">${d.source}</td>
+      <td class="td-src">${d.source}</td>
     </tr>
   `).join("");
 }
@@ -614,11 +607,10 @@ function renderBook(items){
   document.getElementById("tbody-book").innerHTML = items.map(d=>`
     <tr>
       <td class="td-title"><div class="td-name">${d.title}</div><div class="td-sub">${d.author}</div></td>
-      <td class="td-sm" data-label="장르"><span class="badge book-badge" style="font-size:10px">${d.genre}</span></td>
-      <td class="td-sm" data-label="평점" style="font-size:13px;color:var(--gold)">${d.rating}★</td>
-      <td class="td-full td-tip" data-label="한줄평">${d.tip}</td>
+      <td class="td-sm"><span class="badge book-badge" style="font-size:10px">${d.genre}</span> <span style="font-size:13px;color:var(--gold)">${d.rating}★</span></td>
+      <td class="td-full td-tip">${d.tip}</td>
       <td class="td-links">${d.link?`<a class="lnk lnk-primary" href="${d.link}" target="_blank" style="font-size:11px">🔗 링크</a>`:""}${DC_TD(d.discordUrl)}</td>
-      <td class="td-sm" data-label="제보자" style="font-size:11px;color:var(--muted)">${d.source}</td>
+      <td class="td-src">${d.source}</td>
     </tr>
   `).join("");
 }
@@ -652,14 +644,12 @@ function renderMovie(items){
   `).join("");
 
   document.getElementById("tbody-movie").innerHTML = items.map(d=>`
-    <tr class="tr-movie">
+    <tr>
       <td class="td-title"><div class="td-name">${d.title}</div><div class="td-sub">감독 ${d.director}</div></td>
-      <td class="td-sm" data-label="장르"><span class="badge movie-badge" style="font-size:10px">${d.genre}</span></td>
-      <td class="td-full td-tip" data-label="한줄평">${d.tip}</td>
-      <td class="td-sm" data-label="평점" style="font-size:13px;color:var(--gold);text-align:center">${d.rating}★</td>
-      <td data-label="OTT" style="vertical-align:middle"><div style="display:flex;flex-wrap:wrap;gap:4px">${ottBadge(d.ott)}</div></td>
+      <td class="td-sm"><span class="badge movie-badge" style="font-size:10px">${d.genre}</span> <span style="font-size:13px;color:var(--gold)">${d.rating}★</span> ${ottBadge(d.ott)}</td>
+      <td class="td-full td-tip">${d.tip}</td>
       <td class="td-links">${d.link?`<a class="lnk lnk-primary" href="${d.link}" target="_blank" style="font-size:11px">🔗 링크</a>`:""}${DC_TD(d.discordUrl)}</td>
-      <td class="td-sm" data-label="제보자" style="font-size:11px;color:var(--muted)">${d.source}</td>
+      <td class="td-src">${d.source}</td>
     </tr>
   `).join("");
 }
@@ -692,11 +682,10 @@ function renderMusic(items){
   document.getElementById("tbody-music").innerHTML = items.map(d=>`
     <tr>
       <td class="td-title"><div class="td-name">${d.title}</div><div class="td-sub">${d.artist}${d.mood?` · ${d.mood}`:""}</div></td>
-      <td class="td-sm" data-label="장르"><span class="badge music-badge" style="font-size:10px">${d.genre}</span></td>
-      <td class="td-sm" data-label="평점" style="font-size:13px;color:var(--gold)">${d.rating}★</td>
-      <td class="td-full td-tip" data-label="한줄평">${d.tip}</td>
+      <td class="td-sm"><span class="badge music-badge" style="font-size:10px">${d.genre}</span> <span style="font-size:13px;color:var(--gold)">${d.rating}★</span></td>
+      <td class="td-full td-tip">${d.tip}</td>
       <td class="td-links">${d.link?`<a class="lnk" style="background:rgba(255,0,0,.12);border-color:rgba(255,0,0,.25);color:#ff4444;font-size:11px" href="${d.link}" target="_blank">▶ YouTube</a>`:""}${DC_TD(d.discordUrl)}</td>
-      <td class="td-sm" data-label="제보자" style="font-size:11px;color:var(--muted)">${d.source}</td>
+      <td class="td-src">${d.source}</td>
     </tr>
   `).join("");
 }
@@ -729,11 +718,10 @@ function renderShow(items){
   document.getElementById("tbody-show").innerHTML = items.map(d=>`
     <tr>
       <td class="td-title"><div class="td-name">${d.title}</div><div class="td-sub">📍 ${d.venue} · ${d.city}</div></td>
-      <td class="td-sm" data-label="장르"><span class="badge show-badge" style="font-size:10px">${d.genre}</span></td>
-      <td class="td-sm" data-label="평점" style="font-size:13px;color:var(--gold)">${d.rating}★</td>
-      <td class="td-full td-tip" data-label="한줄평">${d.tip}</td>
+      <td class="td-sm"><span class="badge show-badge" style="font-size:10px">${d.genre}</span> <span style="font-size:13px;color:var(--gold)">${d.rating}★</span></td>
+      <td class="td-full td-tip">${d.tip}</td>
       <td class="td-links">${d.link?`<a class="lnk lnk-primary" href="${d.link}" target="_blank" style="font-size:11px">🔗 링크</a>`:""}${DC_TD(d.discordUrl)}</td>
-      <td class="td-sm" data-label="제보자" style="font-size:11px;color:var(--muted)">${d.source}</td>
+      <td class="td-src">${d.source}</td>
     </tr>
   `).join("");
 }
