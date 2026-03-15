@@ -546,6 +546,11 @@ function toDirectImg(url){
   return url;
 }
 
+function boldBrackets(text){
+  if(!text) return "";
+  return text.replace(/\[([^\]]+)\]/g, '<b style="color:var(--text);font-weight:700">[$1]</b>');
+}
+
 function stars(r){
   const full=Math.floor(r), half=(r-full)>=0.5;
   let s="";
@@ -565,7 +570,7 @@ function renderTravel(items){
       <div class="card-name">${d.place}</div>
       <div class="card-sub">📍 ${d.city}</div>
       <span class="badge">${d.category}</span>
-      <div class="card-tip">💡 ${d.tip}</div>
+      <div class="card-tip">💡 ${boldBrackets(d.tip)}</div>
       ${d.mustTry?`<div class="card-extra">⭐ Must try: <b>${d.mustTry}</b></div>`:""}
       <div class="card-footer">
         <div class="card-from">from <b>${d.source}</b></div>
@@ -581,7 +586,7 @@ function renderTravel(items){
     <tr>
       <td class="td-title"><div class="td-name">${d.flag||getFlag(d.country)} ${d.place}</div><div class="td-sub">📍 ${d.city} · ${d.country}</div></td>
       <td class="td-sm"><span class="badge" style="font-size:10px">${d.category}</span></td>
-      <td class="td-full td-tip">${d.tip}</td>
+      <td class="td-full td-tip">${boldBrackets(d.tip)}</td>
       <td class="td-links">${d.mapUrl?`<a class="lnk lnk-map" href="${d.mapUrl}" target="_blank" style="font-size:11px">🗺 지도</a>`:""}${DC_TD(d.discordUrl)}</td>
       <td class="td-src">${d.source}</td>
     </tr>
@@ -605,7 +610,7 @@ function renderBook(items){
       <div class="card-name">${d.title}</div>
       <div class="card-sub" style="margin-bottom:10px">${d.author}</div>
       ${stars(d.rating)}
-      <div class="card-tip" style="margin-top:10px">💬 ${d.tip}</div>
+      <div class="card-tip" style="margin-top:10px">💬 ${boldBrackets(d.tip)}</div>
       <div class="card-footer">
         <div class="card-from">from <b>${d.source}</b></div>
         <div class="card-links">
@@ -620,7 +625,7 @@ function renderBook(items){
     <tr>
       <td class="td-title"><div class="td-name">${d.title}</div><div class="td-sub">${d.author}</div></td>
       <td class="td-sm"><span class="badge book-badge" style="font-size:10px">${d.genre}</span> <span style="font-size:13px;color:var(--gold)">${d.rating}★</span></td>
-      <td class="td-full td-tip">${d.tip}</td>
+      <td class="td-full td-tip">${boldBrackets(d.tip)}</td>
       <td class="td-links">${d.link?`<a class="lnk lnk-primary" href="${d.link}" target="_blank" style="font-size:11px">🔗 링크</a>`:""}${DC_TD(d.discordUrl)}</td>
       <td class="td-src">${d.source}</td>
     </tr>
@@ -644,7 +649,7 @@ function renderMovie(items){
         ${stars(d.rating)}
         ${ottBadge(d.ott)}
       </div>
-      <div class="card-tip">💬 ${d.tip}</div>
+      <div class="card-tip">💬 ${boldBrackets(d.tip)}</div>
       <div class="card-footer">
         <div class="card-from">from <b>${d.source}</b></div>
         <div class="card-links">
@@ -659,7 +664,7 @@ function renderMovie(items){
     <tr>
       <td class="td-title"><div class="td-name">${d.title}</div><div class="td-sub">감독 ${d.director}</div></td>
       <td class="td-sm"><span class="badge movie-badge" style="font-size:10px">${d.genre}</span> <span style="font-size:13px;color:var(--gold)">${d.rating}★</span> ${ottBadge(d.ott)}</td>
-      <td class="td-full td-tip">${d.tip}</td>
+      <td class="td-full td-tip">${boldBrackets(d.tip)}</td>
       <td class="td-links">${d.link?`<a class="lnk lnk-primary" href="${d.link}" target="_blank" style="font-size:11px">🔗 링크</a>`:""}${DC_TD(d.discordUrl)}</td>
       <td class="td-src">${d.source}</td>
     </tr>
@@ -680,7 +685,7 @@ function renderMusic(items){
       <div class="card-name" style="font-size:15px">${d.title}</div>
       <div class="card-sub" style="margin-bottom:10px">${d.artist}</div>
       ${stars(d.rating)}
-      <div class="card-tip" style="margin-top:10px">💬 ${d.tip}</div>
+      <div class="card-tip" style="margin-top:10px">💬 ${boldBrackets(d.tip)}</div>
       <div class="card-footer">
         <div class="card-from">from <b>${d.source}</b></div>
         <div class="card-links">
@@ -695,7 +700,7 @@ function renderMusic(items){
     <tr>
       <td class="td-title"><div class="td-name">${d.title}</div><div class="td-sub">${d.artist}${d.mood?` · ${d.mood}`:""}</div></td>
       <td class="td-sm"><span class="badge music-badge" style="font-size:10px">${d.genre}</span> <span style="font-size:13px;color:var(--gold)">${d.rating}★</span></td>
-      <td class="td-full td-tip">${d.tip}</td>
+      <td class="td-full td-tip">${boldBrackets(d.tip)}</td>
       <td class="td-links">${d.link?`<a class="lnk" style="background:rgba(255,0,0,.12);border-color:rgba(255,0,0,.25);color:#ff4444;font-size:11px" href="${d.link}" target="_blank">▶ YouTube</a>`:""}${DC_TD(d.discordUrl)}</td>
       <td class="td-src">${d.source}</td>
     </tr>
@@ -716,7 +721,7 @@ function renderShow(items){
       <div class="card-sub" style="margin-bottom:4px">📍 ${d.venue}</div>
       <div class="card-sub" style="margin-bottom:10px">🏙 ${d.city}</div>
       ${stars(d.rating)}
-      <div class="card-tip" style="margin-top:10px">💬 ${d.tip}</div>
+      <div class="card-tip" style="margin-top:10px">💬 ${boldBrackets(d.tip)}</div>
       <div class="card-footer">
         <div class="card-from">from <b>${d.source}</b></div>
         <div class="card-links">
@@ -731,7 +736,7 @@ function renderShow(items){
     <tr>
       <td class="td-title"><div class="td-name">${d.title}</div><div class="td-sub">📍 ${d.venue} · ${d.city}</div></td>
       <td class="td-sm"><span class="badge show-badge" style="font-size:10px">${d.genre}</span> <span style="font-size:13px;color:var(--gold)">${d.rating}★</span></td>
-      <td class="td-full td-tip">${d.tip}</td>
+      <td class="td-full td-tip">${boldBrackets(d.tip)}</td>
       <td class="td-links">${d.link?`<a class="lnk lnk-primary" href="${d.link}" target="_blank" style="font-size:11px">🔗 링크</a>`:""}${DC_TD(d.discordUrl)}</td>
       <td class="td-src">${d.source}</td>
     </tr>
