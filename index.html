@@ -221,7 +221,7 @@ tbody td{padding:13px 18px;vertical-align:middle}
 <!-- HEADER -->
 <header>
   <div class="logo">
-    <div class="logo-gem">✦</div>
+    <img src="https://artyandbanana.com/wp-content/uploads/2024/07/banana-english-logo-50x50.webp" alt="AnB" style="width:28px;height:28px;border-radius:7px;object-fit:cover">
     AnB Archive
   </div>
   <div class="header-right">
@@ -281,6 +281,12 @@ tbody td{padding:13px 18px;vertical-align:middle}
   <div class="filter-row" id="filter-row-2">
     <span class="filter-label" id="filter-label-2">카테고리</span>
     <div class="chip-group" id="chips-secondary"></div>
+  </div>
+  <div class="filter-row" id="filter-row-3">
+    <span class="filter-label">리더픽</span>
+    <div class="chip-group">
+      <button class="chip chip-anb${''}" id="chip-anb" onclick="toggleAnb()">🍌 Arty&amp;Banana pick!</button>
+    </div>
   </div>
 </div>
 
@@ -420,7 +426,7 @@ function getFlag(c){return FLAG_MAP[c]??"🌍"}
 
 // ─── 상태 ───
 let activeSection = "travel";
-let filters = { primary:"ALL", secondary:"ALL" };
+let filters = { primary:"ALL", secondary:"ALL", anbOnly: false };
 let DATA = {};
 let viewMode = "card";
 
@@ -434,7 +440,8 @@ function setAccentCSS(sec){
 // ─── Section switch ───
 function setSection(sec){
   activeSection = sec;
-  filters = { primary:"ALL", secondary:"ALL" };
+  filters = { primary:"ALL", secondary:"ALL", anbOnly: false };
+  document.getElementById("chip-anb").classList.remove("on");
 
   document.querySelectorAll(".snav-btn").forEach(b=>b.classList.toggle("on", b.dataset.sec===sec));
   document.querySelectorAll(".section-panel").forEach(p=>p.classList.remove("on"));
@@ -491,6 +498,11 @@ function setPrimary(v){
 function setSecondary(v){
   filters.secondary = v;
   document.querySelectorAll("[data-s]").forEach(el=>el.classList.toggle("on",el.dataset.s===v));
+  render();
+}
+function toggleAnb(){
+  filters.anbOnly = !filters.anbOnly;
+  document.getElementById("chip-anb").classList.toggle("on", filters.anbOnly);
   render();
 }
 
@@ -729,7 +741,7 @@ function renderShow(items){
 function getFiltered(sec){
   const items = DATA[sec] || [];
   return items.filter(d=>{
-    let p = true, s = true;
+    let p = true, s = true, anb = true;
     if(filters.primary !== "ALL"){
       if(sec==="travel") p = d.country === filters.primary;
       else p = d.genre === filters.primary;
@@ -740,7 +752,11 @@ function getFiltered(sec){
       else if(sec==="movie"||sec==="music") s = d.mood === filters.secondary;
       else if(sec==="show")     s = d.city === filters.secondary;
     }
-    return p && s;
+    if(filters.anbOnly){
+      const src = (d.source||"").toLowerCase().trim();
+      anb = src === "arty" || src === "banana" || src === "아티" || src === "바나나";
+    }
+    return p && s && anb;
   });
 }
 
