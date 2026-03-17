@@ -369,7 +369,7 @@ const SHEET_URLS = {
 const SECTIONS = {
   travel:{ accent:"#6c63ff", glow:"rgba(108,99,255,0.18)", tag:"TRAVEL ARCHIVE",   title:"AnB Travel Spots,",    hl:"Curated by Us ✈️",    emptyIcon:"🧭", filter1:"국가", filter2:"카테고리" },
   book:  { accent:"#f5c842", glow:"rgba(245,200,66,0.15)",  tag:"BOOK ARCHIVE",     title:"AnB Book Picks,",      hl:"우리의 책장 📚",        emptyIcon:"📖", filter1:"장르",   filter2:"태그"    },
-  movie: { accent:"#ff6b9d", glow:"rgba(255,107,157,0.15)", tag:"MOVIE ARCHIVE",    title:"AnB Movie Picks,",     hl:"우리의 시네마 🎬",       emptyIcon:"🎬", filter1:"장르",   filter2:"분위기"  },
+  movie: { accent:"#ff6b9d", glow:"rgba(255,107,157,0.15)", tag:"MOVIE ARCHIVE",    title:"AnB Movie Picks,",     hl:"우리의 시네마 🎬",       emptyIcon:"🎬", filter1:"장르",   filter2:""  },
   music: { accent:"#4ecdc4", glow:"rgba(78,205,196,0.15)",  tag:"MUSIC ARCHIVE",    title:"AnB Music Picks,",     hl:"우리의 플레이리스트 🎵", emptyIcon:"🎵", filter1:"장르",   filter2:"분위기"  },
   show:  { accent:"#ff8c42", glow:"rgba(255,140,66,0.15)",  tag:"SHOW ARCHIVE",     title:"AnB Show Picks,",      hl:"우리가 본 공연들 🎭",    emptyIcon:"🎭", filter1:"장르",   filter2:"도시"    },
 };
@@ -473,7 +473,7 @@ function buildFilters(){
     secondaries = ["ALL",...new Set(items.map(d=>d.tag).filter(Boolean))];
   } else if(sec==="movie"){
     primaries   = ["ALL",...new Set(items.map(d=>d.genre))];
-    secondaries = ["ALL",...new Set(items.map(d=>d.mood).filter(Boolean))];
+    secondaries = [];
   } else if(sec==="music"){
     primaries   = ["ALL",...new Set(items.map(d=>d.genre))];
     secondaries = ["ALL",...new Set(items.map(d=>d.mood).filter(Boolean))];
@@ -482,6 +482,7 @@ function buildFilters(){
     secondaries = ["ALL",...new Set(items.map(d=>d.city).filter(Boolean))];
   }
 
+  document.getElementById("filter-row-2").style.display = secondaries.length ? "" : "none";
   document.getElementById("chips-primary").innerHTML = primaries.map(c=>
     `<button class="chip${c==="ALL"?" on":""}" data-p="${c}" onclick="setPrimary('${c.replace(/'/g,"\\'")}')">${c==="ALL"?"전체":c}</button>`
   ).join("");
@@ -637,14 +638,11 @@ function renderMovie(items){
     <div class="card" style="animation-delay:${Math.min(i*30,360)}ms">
       <div class="card-glow-bar"></div>
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
-        <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center">
-          <span class="badge movie-badge">${d.genre}</span>
-          ${d.mood?`<span class="badge" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:var(--muted2)">${d.mood}</span>`:""}
-        </div>
+        <span class="badge movie-badge">${d.genre}</span>
         <div style="font-size:26px">🎬</div>
       </div>
       <div class="card-name">${d.title}</div>
-      <div class="card-sub" style="margin-bottom:10px">감독 ${d.director}</div>
+      <div class="card-sub" style="margin-bottom:10px">감독 ${d.director}${d.year?` · ${d.year}`:""}</div>
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
         ${stars(d.rating)}
         ${ottBadge(d.ott)}
@@ -662,7 +660,7 @@ function renderMovie(items){
 
   document.getElementById("tbody-movie").innerHTML = items.map(d=>`
     <tr>
-      <td class="td-title"><div class="td-name">${d.title}</div><div class="td-sub">감독 ${d.director}</div></td>
+      <td class="td-title"><div class="td-name">${d.title}</div><div class="td-sub">감독 ${d.director}${d.year?` · ${d.year}`:""}</div></td>
       <td class="td-sm"><span class="badge movie-badge" style="font-size:10px">${d.genre}</span> <span style="font-size:13px;color:var(--gold)">${d.rating}★</span> ${ottBadge(d.ott)}</td>
       <td class="td-full td-tip">${boldBrackets(d.tip)}</td>
       <td class="td-links">${d.link?`<a class="lnk lnk-primary" href="${d.link}" target="_blank" style="font-size:11px">🔗 링크</a>`:""}${DC_TD(d.discordUrl)}</td>
@@ -754,7 +752,8 @@ function getFiltered(sec){
     if(filters.secondary !== "ALL"){
       if(sec==="travel")        s = d.category === filters.secondary;
       else if(sec==="book")     s = d.tag === filters.secondary;
-      else if(sec==="movie"||sec==="music") s = d.mood === filters.secondary;
+      else if(sec==="movie") s = true;
+      else if(sec==="music") s = d.mood === filters.secondary;
       else if(sec==="show")     s = d.city === filters.secondary;
     }
     if(filters.anbOnly){
@@ -840,7 +839,7 @@ function parseBook(csv){
 function parseMovie(csv){
   return parseCSVRaw(csv).map(c => ({
     title:      c[0]||"", director:   c[1]||"", genre:      c[2]||"",
-    mood:       c[3]||"", tip:        c[4]||"", rating:     parseFloat(c[5])||0,
+    year:       c[3]||"", tip:        c[4]||"", rating:     parseFloat(c[5])||0,
     link:       c[6]||"", discordUrl: c[7]||"", source:     c[8]||"",
     ott:        c[9]||"",
   })).filter(d => d.title);
